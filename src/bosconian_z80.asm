@@ -68,10 +68,7 @@
 005E: C9          ret
 005F: 3A 06 68    ld   a,($6806)
 0062: C3 29 04    jp   $0429
-0065: FD          db   $fd
-0066: D9          exx
-0067: ED A0       ldi
-0069: EA 9A 00    jp   pe,$009A
+
 006C: 21 00 71    ld   hl,$7100
 006F: 36 10       ld   (hl),$10
 0071: F5          push af
@@ -1506,48 +1503,8 @@
 0B87: 32 10 98    ld   ($9810),a
 0B8A: 32 20 98    ld   ($9820),a
 0B8D: C9          ret
-0B8E: 1B          dec  de
-0B8F: 0E 0A       ld   c,$0A
-0B91: 0D          dec  c
-0B92: 22 19 15    ld   ($1519),hl
-0B95: 0A          ld   a,(bc)
-0B96: 22 0E 1B    ld   ($1B0E),hl
-0B99: 24          inc  h
-0B9A: 18 17       jr   $0BB3
-0B9C: 0E 24       ld   c,$24
-0B9E: 1D          dec  e
-0B9F: 20 18       jr   nz,$0BB9
-0BA1: 18 50       jr   $0BF3
-0BA3: 1C          inc  e
-0BA4: 60          ld   h,b
-0BA5: 3C          inc  a
-0BA6: 78          ld   a,b
-0BA7: 5C          ld   e,h
-0BA8: 88          adc  a,b
-0BA9: 78          ld   a,b
-0BAA: 08          ex   af,af'
-0BAB: 78          ld   a,b
-0BAC: 08          ex   af,af'
-0BAD: 78          ld   a,b
-0BAE: 08          ex   af,af'
-0BAF: 78          ld   a,b
-0BB0: 08          ex   af,af'
-0BB1: 1B          dec  de
-0BB2: A4          and  h
-0BB3: 1F          rra
-0BB4: 94          sub  h
-0BB5: 3F          ccf
-0BB6: 7C          ld   a,h
-0BB7: 5F          ld   e,a
-0BB8: 6C          ld   l,h
-0BB9: 78          ld   a,b
-0BBA: 08          ex   af,af'
-0BBB: 78          ld   a,b
-0BBC: 08          ex   af,af'
-0BBD: 78          ld   a,b
-0BBE: 08          ex   af,af'
-0BBF: 78          ld   a,b
-0BC0: 08          ex   af,af'
+
+
 0BC1: 5E          ld   e,(hl)
 0BC2: 23          inc  hl
 0BC3: 56          ld   d,(hl)
@@ -3872,24 +3829,7 @@
 1A46: ED A0       ldi
 1A48: 10 F7       djnz $1A41
 1A4A: C9          ret
-1A4B: CE 50       adc  a,$50
-1A4D: CE 11       adc  a,$11
-1A4F: C1          pop  bc
-1A50: CF          rst  $08
-1A51: C1          pop  bc
-1A52: 8F          adc  a,a
-1A53: C0          ret  nz
-1A54: CF          rst  $08
-1A55: C4 4F CE    call nz,$CE4F
-1A58: 50          ld   d,b
-1A59: CE 11       adc  a,$11
-1A5B: DE 93       sbc  a,$93
-1A5D: DD          db   $dd
-1A5E: 93          sub  e
-1A5F: 24          inc  h
-1A60: 00          nop
-1A61: 24          inc  h
-1A62: 00          nop
+
 1A63: AF          xor  a
 1A64: 6F          ld   l,a
 1A65: 57          ld   d,a
@@ -5592,274 +5532,7 @@
 27BB: 22 53 80    ld   ($8053),hl
 27BE: EB          ex   de,hl
 27BF: C9          ret
-27C0: C8          ret  z
-27C1: 27          daa
-27C2: D0          ret  nc
-27C3: 27          daa
-27C4: D8          ret  c
-27C5: 27          daa
-27C6: E0          ret  po
-27C7: 27          daa
-27C8: 10 00       djnz $27CA
-27CA: 20 00       jr   nz,$27CC
-27CC: 30 00       jr   nc,$27CE
-27CE: 40          ld   b,b
-27CF: 00          nop
-27D0: 10 00       djnz $27D2
-27D2: 00          nop
-27D3: 10 00       djnz $27D5
-27D5: F0          ret  p
-27D6: F0          ret  p
-27D7: 00          nop
-27D8: 10 10       djnz $27EA
-27DA: 10 F0       djnz $27CC
-27DC: 20 20       jr   nz,$27FE
-27DE: 20 E0       jr   nz,$27C0
-27E0: 10 10       djnz $27F2
-27E2: 10 F0       djnz $27D4
-27E4: F0          ret  p
-27E5: 10 F0       djnz $27D7
-27E7: F0          ret  p
-27E8: 40          ld   b,b
-27E9: 03          inc  bc
-27EA: 20 02       jr   nz,$27EE
-27EC: 60          ld   h,b
-27ED: 04          inc  b
-27EE: 60          ld   h,b
-27EF: 04          inc  b
-27F0: 00          nop
-27F1: 00          nop
-27F2: 00          nop
-27F3: 00          nop
-27F4: 00          nop
-27F5: FF          rst  $38
-27F6: FD          db   $fd
-27F7: FD          db   $fd
-27F8: FA FA FA    jp   m,$FAFA
-27FB: FA FA FA    jp   m,$FAFA
-27FE: FA FA FA    jp   m,$FAFA
-2801: FA FA FA    jp   m,$FAFA
-2804: FA FA FD    jp   m,$FDFA
-2807: FD          db   $fd
-2808: FF          rst  $38
-2809: FF          rst  $38
-280A: 00          nop
-280B: 00          nop
-280C: 00          nop
-280D: 00          nop
-280E: 00          nop
-280F: 00          nop
-2810: 00          nop
-2811: 00          nop
-2812: 00          nop
-2813: 00          nop
-2814: 00          nop
-2815: 01 03 05    ld   bc,$0503
-2818: 06 06       ld   b,$06
-281A: 06 06       ld   b,$06
-281C: 06 06       ld   b,$06
-281E: 06 06       ld   b,$06
-2820: 06 06       ld   b,$06
-2822: 05          dec  b
-2823: 03          inc  bc
-2824: 01 00 00    ld   bc,$0000
-2827: 00          nop
-2828: 00          nop
-2829: 00          nop
-282A: 00          nop
-282B: 00          nop
-282C: 00          nop
-282D: 00          nop
-282E: 00          nop
-282F: 00          nop
-2830: 00          nop
-2831: 00          nop
-2832: 00          nop
-2833: 00          nop
-2834: 00          nop
-2835: 01 03 05    ld   bc,$0503
-2838: 03          inc  bc
-2839: 01 00 FF    ld   bc,$FF00
-283C: FD          db   $fd
-283D: FB          ei
-283E: F9          ld   sp,hl
-283F: F7          rst  $30
-2840: F9          ld   sp,hl
-2841: FB          ei
-2842: FD          db   $fd
-2843: FF          rst  $38
-2844: FD          db   $fd
-2845: FD          db   $fd
-2846: FD          db   $fd
-2847: FF          rst  $38
-2848: 00          nop
-2849: 00          nop
-284A: 00          nop
-284B: 00          nop
-284C: 00          nop
-284D: 00          nop
-284E: 00          nop
-284F: 00          nop
-2850: 00          nop
-2851: 00          nop
-2852: 00          nop
-2853: 00          nop
-2854: FF          rst  $38
-2855: FF          rst  $38
-2856: FF          rst  $38
-2857: FF          rst  $38
-2858: FF          rst  $38
-2859: 00          nop
-285A: 01 01 01    ld   bc,$0101
-285D: 01 01 00    ld   bc,$0001
-2860: FF          rst  $38
-2861: FF          rst  $38
-2862: FF          rst  $38
-2863: FF          rst  $38
-2864: FF          rst  $38
-2865: 00          nop
-2866: 01 01 01    ld   bc,$0101
-2869: 01 01 00    ld   bc,$0001
-286C: 00          nop
-286D: 00          nop
-286E: 00          nop
-286F: 00          nop
-2870: 00          nop
-2871: 00          nop
-2872: 00          nop
-2873: 00          nop
-2874: 00          nop
-2875: FF          rst  $38
-2876: FF          rst  $38
-2877: 00          nop
-2878: 01 01 01    ld   bc,$0101
-287B: 01 01 01    ld   bc,$0101
-287E: 01 01 01    ld   bc,$0101
-2881: 01 01 01    ld   bc,$0101
-2884: 01 01 01    ld   bc,$0101
-2887: 01 00 00    ld   bc,$0000
-288A: FF          rst  $38
-288B: FF          rst  $38
-288C: FF          rst  $38
-288D: 00          nop
-288E: 01 01 5A    ld   bc,$5A01
-2891: 9C          sbc  a,h
-2892: 64          ld   h,h
-2893: A6          and  (hl)
-2894: A6          and  (hl)
-2895: 9C          sbc  a,h
-2896: 9C          sbc  a,h
-2897: A6          and  (hl)
-2898: 0A          ld   a,(bc)
-2899: 9C          sbc  a,h
-289A: F6 9C       or   $9C
-289C: 64          ld   h,h
-289D: F6 64       or   $64
-289F: 0A          ld   a,(bc)
-28A0: 5A          ld   e,d
-28A1: 9C          sbc  a,h
-28A2: 5A          ld   e,d
-28A3: 64          ld   h,h
-28A4: 64          ld   h,h
-28A5: BA          cp   d
-28A6: 64          ld   h,h
-28A7: 46          ld   b,(hl)
-28A8: 64          ld   h,h
-28A9: 14          inc  d
-28AA: 64          ld   h,h
-28AB: 00          nop
-28AC: 00          nop
-28AD: 64          ld   h,h
-28AE: 14          inc  d
-28AF: 64          ld   h,h
-28B0: 50          ld   d,b
-28B1: 64          ld   h,h
-28B2: 78          ld   a,b
-28B3: 64          ld   h,h
-28B4: B0          or   b
-28B5: 64          ld   h,h
-28B6: 88          adc  a,b
-28B7: 64          ld   h,h
-28B8: 00          nop
-28B9: 64          ld   h,h
-28BA: EC 64 9C    call pe,$9C64
-28BD: 00          nop
-28BE: 9C          sbc  a,h
-28BF: 14          inc  d
-28C0: 9C          sbc  a,h
-28C1: 50          ld   d,b
-28C2: 9C          sbc  a,h
-28C3: 78          ld   a,b
-28C4: 9C          sbc  a,h
-28C5: BA          cp   d
-28C6: 9C          sbc  a,h
-28C7: 9C          sbc  a,h
-28C8: 9C          sbc  a,h
-28C9: 00          nop
-28CA: 9C          sbc  a,h
-28CB: EC 00 9C    call pe,$9C00
-28CE: EC 9C 0A    call pe,$0A9C
-28D1: 9C          sbc  a,h
-28D2: 14          inc  d
-28D3: 9C          sbc  a,h
-28D4: F6 9C       or   $9C
-28D6: EC 9C 50    call pe,$509C
-28D9: 9C          sbc  a,h
-28DA: 5A          ld   e,d
-28DB: 9C          sbc  a,h
-28DC: 64          ld   h,h
-28DD: A6          and  (hl)
-28DE: 64          ld   h,h
-28DF: B0          or   b
-28E0: 64          ld   h,h
-28E1: 0A          ld   a,(bc)
-28E2: 64          ld   h,h
-28E3: 14          inc  d
-28E4: 64          ld   h,h
-28E5: F6 64       or   $64
-28E7: EC 50 64    call pe,$6450
-28EA: 5A          ld   e,d
-28EB: 64          ld   h,h
-28EC: 64          ld   h,h
-28ED: 5A          ld   e,d
-28EE: 64          ld   h,h
-28EF: 50          ld   d,b
-28F0: 0A          ld   a,(bc)
-28F1: 64          ld   h,h
-28F2: 14          inc  d
-28F3: 64          ld   h,h
-28F4: F6 64       or   $64
-28F6: EC 64 B0    call pe,$B064
-28F9: 64          ld   h,h
-28FA: A6          and  (hl)
-28FB: 64          ld   h,h
-28FC: 9C          sbc  a,h
-28FD: 5A          ld   e,d
-28FE: 9C          sbc  a,h
-28FF: 50          ld   d,b
-2900: 9C          sbc  a,h
-2901: 0A          ld   a,(bc)
-2902: 9C          sbc  a,h
-2903: 14          inc  d
-2904: 9C          sbc  a,h
-2905: F6 9C       or   $9C
-2907: EC 9C A6    call pe,$A69C
-290A: 9C          sbc  a,h
-290B: B0          or   b
-290C: A6          and  (hl)
-290D: 9C          sbc  a,h
-290E: B0          or   b
-290F: 9C          sbc  a,h
-2910: 5A          ld   e,d
-2911: 2C          inc  l
-2912: 16 0D       ld   d,$0D
-2914: 07          rlca
-2915: 03          inc  bc
-2916: 00          nop
-2917: 00          nop
-2918: 32 AE 83    ld   ($83AE),a
-291B: C3 5A 03    jp   $035A
-291E: ED 73 B7 89 ld   ($89B7),sp
+
 2922: AF          xor  a
 2923: 32 B9 89    ld   ($89B9),a
 2926: 6F          ld   l,a
@@ -6551,93 +6224,7 @@
 2DEB: C2 FB 2C    jp   nz,$2CFB
 2DEE: DD 36 00 02 ld   (ix+$00),$02
 2DF2: C3 FB 2C    jp   $2CFB
-2DF5: 51          ld   d,c
-2DF6: 85          add  a,l
-2DF7: 06 5E       ld   b,$5E
-2DF9: 12          ld   (de),a
-2DFA: 26 1D       ld   h,$1D
-2DFC: 22 19 0E    ld   ($0E19),hl
-2DFF: 91          sub  c
-2E00: 85          add  a,l
-2E01: 06 5E       ld   b,$5E
-2E03: 05          dec  b
-2E04: 00          nop
-2E05: 24          inc  h
-2E06: 19          add  hl,de
-2E07: 1D          dec  e
-2E08: 1C          inc  e
-2E09: D1          pop  de
-2E0A: 84          add  a,h
-2E0B: 07          rlca
-2E0C: 5D          ld   e,l
-2E0D: 16 12       ld   d,$12
-2E0F: 1C          inc  e
-2E10: 1C          inc  e
-2E11: 12          ld   (de),a
-2E12: 15          dec  d
-2E13: 0E 15       ld   c,$15
-2E15: 86          add  a,(hl)
-2E16: 06 5E       ld   b,$5E
-2E18: 19          add  hl,de
-2E19: 26 1D       ld   h,$1D
-2E1B: 22 19 0E    ld   ($0E19),hl
-2E1E: 55          ld   d,l
-2E1F: 86          add  a,(hl)
-2E20: 06 5E       ld   b,$5E
-2E22: 06 00       ld   b,$00
-2E24: 24          inc  h
-2E25: 19          add  hl,de
-2E26: 1D          dec  e
-2E27: 1C          inc  e
-2E28: F1          pop  af
-2E29: 86          add  a,(hl)
-2E2A: 06 5E       ld   b,$5E
-2E2C: 0E 26       ld   c,$26
-2E2E: 1D          dec  e
-2E2F: 22 19 0E    ld   ($0E19),hl
-2E32: 31 87 06    ld   sp,$0687
-2E35: 5E          ld   e,(hl)
-2E36: 07          rlca
-2E37: 00          nop
-2E38: 24          inc  h
-2E39: 19          add  hl,de
-2E3A: 1D          dec  e
-2E3B: 1C          inc  e
-2E3C: E4 86 08    call po,$0886
-2E3F: 5E          ld   e,(hl)
-2E40: 1C          inc  e
-2E41: 19          add  hl,de
-2E42: 22 24 1C    ld   ($1C24),hl
-2E45: 11 12 19    ld   de,$1912
-2E48: 24          inc  h
-2E49: 87          add  a,a
-2E4A: 07          rlca
-2E4B: 5E          ld   e,(hl)
-2E4C: 16 22       ld   d,$22
-2E4E: 1C          inc  e
-2E4F: 1D          dec  e
-2E50: 0E 1B       ld   c,$1B
-2E52: 22 32 8C    ld   ($8C32),hl
-2E55: 80          add  a,b
-2E56: CD 60 10    call $1060
-2E59: CD FB 2C    call $2CFB
-2E5C: C3 B1 10    jp   $10B1
-2E5F: 0E 64       ld   c,$64
-2E61: C3 3E 31    jp   $313E
-2E64: 88          adc  a,b
-2E65: 84          add  a,h
-2E66: 0B          dec  bc
-2E67: 1C          inc  e
-2E68: 0C          inc  c
-2E69: 18 1B       jr   $2E86
-2E6B: 0E 24       ld   c,$24
-2E6D: 1D          dec  e
-2E6E: 0A          ld   a,(bc)
-2E6F: 0B          dec  bc
-2E70: 15          dec  d
-2E71: 0E 21       ld   c,$21
-2E73: C0          ret  nz
-2E74: 84          add  a,h
+
 2E75: 11 C1 84    ld   de,$84C1
 2E78: 01 3F 03    ld   bc,$033F
 2E7B: 36 24       ld   (hl),$24
@@ -7234,21 +6821,7 @@
 32D8: 23          inc  hl
 32D9: 10 F8       djnz $32D3
 32DB: C9          ret
-32DC: 20 8E       jr   nz,$326C
-32DE: 60          ld   h,b
-32DF: 8E          adc  a,(hl)
-32E0: A0          and  b
-32E1: 8E          adc  a,(hl)
-32E2: E0          ret  po
-32E3: 8E          adc  a,(hl)
-32E4: 20 8F       jr   nz,$3275
-32E6: 0C          inc  c
-32E7: 09          add  hl,bc
-32E8: 06 03       ld   b,$03
-32EA: 00          nop
-32EB: F5          push af
-32EC: 32 F9 32    ld   ($32F9),a
-32EF: FD          db   $fd
+
 32F0: 32 13 33    ld   ($3313),a
 32F3: 1E 33       ld   e,$33
 32F5: 3E 0C       ld   a,$0C
@@ -7279,12 +6852,7 @@
 332C: 01 04 00    ld   bc,$0004
 332F: ED B0       ldir
 3331: C9          ret
-3332: E4 8B E8    call po,$E88B
-3335: 8B          adc  a,e
-3336: EC 8B F0    call pe,$F08B
-3339: 8B          adc  a,e
-333A: 5C          ld   e,h
-333B: 88          adc  a,b
+
 333C: 21 58 88    ld   hl,$8858
 333F: 06 04       ld   b,$04
 3341: 1A          ld   a,(de)
@@ -7446,47 +7014,7 @@
 341A: 1C          inc  e
 341B: 0C          inc  c
 341C: 18 1B       jr   $3439
-341E: 0E 24       ld   c,$24
-3420: 24          inc  h
-3421: 24          inc  h
-3422: 24          inc  h
-3423: 24          inc  h
-3424: 24          inc  h
-3425: 17          rla
-3426: 0A          ld   a,(bc)
-3427: 16 0E       ld   d,$0E
-3429: 24          inc  h
-342A: 86          add  a,(hl)
-342B: CF          rst  $08
-342C: 81          add  a,c
-342D: E4 8B C5    call po,$C58B
-3430: 8B          adc  a,e
-3431: 64          ld   h,h
-3432: 86          add  a,(hl)
-3433: D1          pop  de
-3434: 81          add  a,c
-3435: E8          ret  pe
-3436: 8B          adc  a,e
-3437: C8          ret  z
-3438: 8B          adc  a,e
-3439: A4          and  h
-343A: 86          add  a,(hl)
-343B: D3 81       out  ($81),a
-343D: EC 8B CB    call pe,$CB8B
-3440: 8B          adc  a,e
-3441: E4 86 D5    call po,$D586
-3444: 81          add  a,c
-3445: F0          ret  p
-3446: 8B          adc  a,e
-3447: CE 8B       adc  a,$8B
-3449: 24          inc  h
-344A: 87          add  a,a
-344B: D7          rst  $10
-344C: 81          add  a,c
-344D: 5C          ld   e,h
-344E: 88          adc  a,b
-344F: D1          pop  de
-3450: 8B          adc  a,e
+
 3451: 3E 41       ld   a,$41
 3453: CD 67 0B    call $0B67
 3456: 21 75 34    ld   hl,$3475

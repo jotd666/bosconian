@@ -1,0 +1,16 @@
+*.o
+*.zip
+*.pyc
+c
+.git
+s
+snapshot
+src/datetime
+*.slave
+*.bak
+# I use .s for generated source
+*.s
+# generated code
+graphics*.68k
+sound*.68k
+
