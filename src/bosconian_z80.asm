@@ -1,3 +1,17 @@
+;	map(0x0000, 0x3fff).rom();
+;	map(0x8000, 0x8fff).ram().w(FUNC(rallyx_state::videoram_w)).share(m_videoram);
+;	map(0x9800, 0x9fff).ram();
+;	map(0xa000, 0xa000).portr("P1");
+;	map(0xa080, 0xa080).portr("P2");
+;	map(0xa100, 0xa100).portr("DSW");
+;	map(0xa000, 0xa00f).writeonly().share(m_radarattr);
+;	map(0xa080, 0xa080).w("watchdog", FUNC(watchdog_timer_device::reset_w));
+;	map(0xa100, 0xa11f).w(m_namco_sound, FUNC(namco_device::pacman_sound_w));
+;	map(0xa130, 0xa130).w(FUNC(rallyx_state::scrollx_w));
+;	map(0xa140, 0xa140).w(FUNC(rallyx_state::scrolly_w));
+;	map(0xa170, 0xa170).nopw();            // ?
+;	map(0xa180, 0xa187).w("mainlatch", FUNC(ls259_device::write_d0));
+
 0000: 31 40 80    ld   sp,$8040
 0003: C3 0E 01    jp   $010E
 0006: 00          nop
@@ -6350,58 +6364,7 @@
 2F83: 21 8C 2F    ld   hl,$2F8C
 2F86: CD 37 1A    call $1A37
 2F89: C3 37 1A    jp   $1A37
-2F8C: C8          ret  z
-2F8D: 85          add  a,l
-2F8E: 0A          ld   a,(bc)
-2F8F: 41          ld   b,c
-2F90: 0E 17       ld   c,$17
-2F92: 0E 16       ld   c,$16
-2F94: 22 24 0B    ld   ($0B24),hl
-2F97: 0A          ld   a,(bc)
-2F98: 1C          inc  e
-2F99: 0E 09       ld   c,$09
-2F9B: 86          add  a,(hl)
-2F9C: 08          ex   af,af'
-2F9D: 41          ld   b,c
-2F9E: 01 05 00    ld   bc,$0005
-2FA1: 00          nop
-2FA2: 24          inc  h
-2FA3: 19          add  hl,de
-2FA4: 1D          dec  e
-2FA5: 1C          inc  e
-2FA6: AB          xor  e
-2FA7: 86          add  a,(hl)
-2FA8: 06 41       ld   b,$41
-2FAA: 0C          inc  c
-2FAB: 0A          ld   a,(bc)
-2FAC: 17          rla
-2FAD: 17          rla
-2FAE: 18 17       jr   $2FC7
-2FB0: EA 86 07    jp   pe,$0786
-2FB3: 41          ld   b,c
-2FB4: 02          ld   (bc),a
-2FB5: 00          nop
-2FB6: 00          nop
-2FB7: 24          inc  h
-2FB8: 19          add  hl,de
-2FB9: 1D          dec  e
-2FBA: 1C          inc  e
-2FBB: AB          xor  e
-2FBC: 86          add  a,(hl)
-2FBD: 06 24       ld   b,$24
-2FBF: 24          inc  h
-2FC0: 24          inc  h
-2FC1: 24          inc  h
-2FC2: 24          inc  h
-2FC3: 24          inc  h
-2FC4: EA 86 07    jp   pe,$0786
-2FC7: 24          inc  h
-2FC8: 24          inc  h
-2FC9: 24          inc  h
-2FCA: 24          inc  h
-2FCB: 24          inc  h
-2FCC: 24          inc  h
-2FCD: 24          inc  h
+
 2FCE: 3E 01       ld   a,$01
 2FD0: 32 15 8A    ld   ($8A15),a
 2FD3: 3D          dec  a
@@ -6466,86 +6429,8 @@
 3042: 28 FD       jr   z,$3041
 3044: E1          pop  hl
 3045: C9          ret
-3046: AB          xor  e
-3047: 85          add  a,l
-3048: 05          dec  b
-3049: 0B          dec  bc
-304A: 18 17       jr   $3063
-304C: 1E 1C       ld   e,$1C
-304E: E5          push hl
-304F: 85          add  a,l
-3050: 11 0F 18    ld   de,$180F
-3053: 1B          dec  de
-3054: 24          inc  h
-3055: 17          rla
-3056: 18 24       jr   $307C
-3058: 16 12       ld   d,$12
-305A: 1C          inc  e
-305B: 1C          inc  e
-305C: 24          inc  h
-305D: 0C          inc  c
-305E: 15          dec  d
-305F: 0E 0A       ld   c,$0A
-3061: 1B          dec  de
-3062: 2C          inc  l
-3063: 86          add  a,(hl)
-3064: 04          inc  b
-3065: 00          nop
-3066: 00          nop
-3067: 3F          ccf
-3068: 08          ex   af,af'
-3069: 2B          dec  hl
-306A: 86          add  a,(hl)
-306B: 05          dec  b
-306C: 01 00 00    ld   bc,$0000
-306F: 3F          ccf
-3070: 03          inc  bc
-3071: 2B          dec  hl
-3072: 86          add  a,(hl)
-3073: 05          dec  b
-3074: 01 00 00    ld   bc,$0000
-3077: 3F          ccf
-3078: 04          inc  b
-3079: 2B          dec  hl
-307A: 86          add  a,(hl)
-307B: 05          dec  b
-307C: 02          ld   (bc),a
-307D: 00          nop
-307E: 00          nop
-307F: 3F          ccf
-3080: 04          inc  b
-3081: 95          sub  l
-3082: 96          sub  (hl)
-3083: 9A          sbc  a,d
-3084: 96          sub  (hl)
-3085: 96          sub  (hl)
-3086: 9A          sbc  a,d
-3087: 9A          sbc  a,d
-3088: A3          and  e
-3089: 96          sub  (hl)
-308A: A5          and  l
-308B: 93          sub  e
-308C: A3          and  e
-308D: A3          and  e
-308E: A6          and  (hl)
-308F: 9A          sbc  a,d
-3090: A7          and  a
-3091: 98          sbc  a,b
-3092: A8          xor  b
-3093: 96          sub  (hl)
-3094: A9          xor  c
-3095: 93          sub  e
-3096: A6          and  (hl)
-3097: A6          and  (hl)
-3098: 24          inc  h
-3099: 01 24 02    ld   bc,$0224
-309C: 24          inc  h
-309D: 03          inc  bc
-309E: 24          inc  h
-309F: 04          inc  b
-30A0: 24          inc  h
-30A1: 05          dec  b
-30A2: 24          inc  h
+
+
 30A3: 06 24       ld   b,$24
 30A5: 07          rlca
 30A6: 24          inc  h
@@ -7693,10 +7578,7 @@
 394D: AF          xor  a
 394E: 32 00 78    ld   ($7800),a
 3951: C3 25 01    jp   $0125
-3954: 10 50       djnz $39A6
-3956: 02          ld   (bc),a
-3957: 00          nop
-3958: 00          nop
+
 3959: E5          push hl
 395A: C5          push bc
 395B: CD 70 39    call $3970
@@ -7750,19 +7632,7 @@
 39B6: 13          inc  de
 39B7: C9          ret
 39B8: 30 40       jr   nc,$39FA
-39BA: 00          nop
-39BB: 02          ld   (bc),a
-39BC: DF          rst  $18
-39BD: 40          ld   b,b
-39BE: 30 30       jr   nc,$39F0
-39C0: 03          inc  bc
-39C1: DF          rst  $18
-39C2: 60          ld   h,b
-39C3: 08          ex   af,af'
-39C4: 04          inc  b
-39C5: 21 00 F1    ld   hl,$F100
-39C8: 00          nop
-39C9: 05          dec  b
+
 39CA: 21 0A 88    ld   hl,$880A
 39CD: 11 0B 88    ld   de,$880B
 39D0: 01 07 00    ld   bc,$0007
@@ -8096,160 +7966,8 @@
 3C0A: 24          inc  h
 3C0B: 0F          rrca
 3C0C: 18 1B       jr   $3C29
-3C0E: 24          inc  h
-3C0F: 08          ex   af,af'
-3C10: 00          nop
-3C11: 00          nop
-3C12: 00          nop
-3C13: 24          inc  h
-3C14: 19          add  hl,de
-3C15: 1D          dec  e
-3C16: 1C          inc  e
-3C17: 24          inc  h
-3C18: 0F          rrca
-3C19: 24          inc  h
-3C1A: 02          ld   (bc),a
-3C1B: 17          rla
-3C1C: 0D          dec  c
-3C1D: 24          inc  h
-3C1E: 0B          dec  bc
-3C1F: 18 17       jr   $3C38
-3C21: 1E 1C       ld   e,$1C
-3C23: 24          inc  h
-3C24: 0F          rrca
-3C25: 18 1B       jr   $3C42
-3C27: 24          inc  h
-3C28: 08          ex   af,af'
-3C29: 00          nop
-3C2A: 00          nop
-3C2B: 00          nop
-3C2C: 24          inc  h
-3C2D: 19          add  hl,de
-3C2E: 1D          dec  e
-3C2F: 1C          inc  e
-3C30: 24          inc  h
-3C31: 0F          rrca
-3C32: 24          inc  h
-3C33: 0A          ld   a,(bc)
-3C34: 17          rla
-3C35: 0D          dec  c
-3C36: 24          inc  h
-3C37: 0F          rrca
-3C38: 18 1B       jr   $3C55
-3C3A: 24          inc  h
-3C3B: 0E 1F       ld   c,$1F
-3C3D: 0E 1B       ld   c,$1B
-3C3F: 22 24 08    ld   ($0824),hl
-3C42: 00          nop
-3C43: 00          nop
-3C44: 00          nop
-3C45: 24          inc  h
-3C46: 19          add  hl,de
-3C47: 1D          dec  e
-3C48: 1C          inc  e
-3C49: 24          inc  h
-3C4A: FF          rst  $38
-3C4B: FF          rst  $38
-3C4C: FF          rst  $38
-3C4D: FF          rst  $38
-3C4E: 01 00 85    ld   bc,$8500
-3C51: 00          nop
-3C52: 01 50 85    ld   bc,$8550
-3C55: 00          nop
-3C56: 01 50 87    ld   bc,$8750
-3C59: 00          nop
-3C5A: 02          ld   (bc),a
-3C5B: 00          nop
-3C5C: 87          add  a,a
-3C5D: 00          nop
-3C5E: 03          inc  bc
-3C5F: 00          nop
-3C60: 90          sub  b
-3C61: 00          nop
-3C62: 01 50 05    ld   bc,$0550
-3C65: 00          nop
-3C66: 02          ld   (bc),a
-3C67: 00          nop
-3C68: 07          rlca
-3C69: 00          nop
-3C6A: FF          rst  $38
-3C6B: FF          rst  $38
-3C6C: FF          rst  $38
-3C6D: FF          rst  $38
-3C6E: 01 50 07    ld   bc,$0750
-3C71: 00          nop
-3C72: 02          ld   (bc),a
-3C73: 00          nop
-3C74: 07          rlca
-3C75: 00          nop
-3C76: 02          ld   (bc),a
-3C77: 00          nop
-3C78: 10 00       djnz $3C7A
-3C7A: 03          inc  bc
-3C7B: 00          nop
-3C7C: 12          ld   (de),a
-3C7D: 00          nop
-3C7E: 03          inc  bc
-3C7F: 00          nop
-3C80: 88          adc  a,b
-3C81: 00          nop
-3C82: 03          inc  bc
-3C83: 00          nop
-3C84: 90          sub  b
-3C85: 00          nop
-3C86: 03          inc  bc
-3C87: 00          nop
-3C88: 92          sub  d
-3C89: 00          nop
-3C8A: 06 1B       ld   b,$1B
-3C8C: 0A          ld   a,(bc)
-3C8D: 17          rla
-3C8E: 14          inc  d
-3C8F: 24          inc  h
-3C90: 24          inc  h
-3C91: 99          sbc  a,c
-3C92: 3C          inc  a
-3C93: A7          and  a
-3C94: 3C          inc  a
-3C95: AE          xor  (hl)
-3C96: 3C          inc  a
-3C97: A0          and  b
-3C98: 3C          inc  a
-3C99: 00          nop
-3C9A: 01 04 0A    ld   bc,$0A04
-3C9D: 1E 1D       ld   e,$1D
-3C9F: 18 46       jr   $3CE7
-3CA1: 00          nop
-3CA2: 04          inc  b
-3CA3: 0A          ld   a,(bc)
-3CA4: 24          inc  h
-3CA5: 24          inc  h
-3CA6: 24          inc  h
-3CA7: 00          nop
-3CA8: 00          nop
-3CA9: 04          inc  b
-3CAA: 0B          dec  bc
-3CAB: 24          inc  h
-3CAC: 24          inc  h
-3CAD: 24          inc  h
-3CAE: 44          ld   b,h
-3CAF: 00          nop
-3CB0: 04          inc  b
-3CB1: 0C          inc  c
-3CB2: 24          inc  h
-3CB3: 24          inc  h
-3CB4: 24          inc  h
-3CB5: 1C          inc  e
-3CB6: 11 12 19    ld   de,$1912
-3CB9: 00          nop
-3CBA: 00          nop
-3CBB: 04          inc  b
-3CBC: 01 03 01    ld   bc,$0103
-3CBF: 02          ld   (bc),a
-3CC0: 01 02 03    ld   bc,$0302
-3CC3: 01 03 01    ld   bc,$0103
-3CC6: 02          ld   (bc),a
-3CC7: 01 01 DB    ld   bc,$DB01
+
+
 3CCA: 3C          inc  a
 3CCB: EE 3C       xor  $3C
 3CCD: F6 3C       or   $3C
