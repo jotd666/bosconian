@@ -15,6 +15,7 @@
 0000: 31 40 80    ld   sp,$8040
 0003: C3 0E 01    jp   $010E
 
+add_2a_to_hl_0008:
 0008: 87          add  a,a
 0009: 30 05       jr   nc,$0010
 000B: 24          inc  h
@@ -35,12 +36,15 @@ add_a_to_hl_0010:
 001D: 6F          ld   l,a
 001E: 23          inc  hl
 001F: C9          ret
-0020: CF          rst  $08
-0021: 7E          ld   a,(hl)
+
+indirect_jump_0020:
+0020: CF          rst  $08		; add_2a_to_hl_0008
+0021: 7E          ld   a,(hl)   ; read lsb
 0022: 23          inc  hl
-0023: 66          ld   h,(hl)
+0023: 66          ld   h,(hl)	; read msb
 0024: 6F          ld   l,a
-0025: E9          jp   (hl)
+0025: E9          jp   (hl)		; jump
+
 0026: 00          nop
 0027: 00          nop
 0028: CD 04 0D    call $0D04
@@ -318,11 +322,11 @@ add_a_to_hl_0010:
 0235: 28 06       jr   z,$023D
 0237: 3D          dec  a
 0238: 20 03       jr   nz,$023D
-023A: 21 D8 03    ld   hl,$03D8
+023A: 21 D8 03    ld   hl,jump_table_03D8
 023D: AF          xor  a
 023E: 32 BC 89    ld   ($89BC),a
 0241: E5          push hl
-0242: E7          rst  $20
+0242: E7          rst  $20		; [nb_entries=36]
 0243: E1          pop  hl
 0244: 3A BC 89    ld   a,($89BC)
 0247: 3C          inc  a
@@ -345,6 +349,46 @@ add_a_to_hl_0010:
 0269: E1          pop  hl
 026A: FB          ei
 026B: C9          ret
+
+jump_table_03D8:
+	.word	$1128 
+	.word	$125A 
+	.word	$0279 
+	.word	$03A6 
+	.word	$265B 
+	.word	$1A8F
+	.word	$0388
+	.word	$035A
+	.word	$0287
+	.word	$1671
+	.word	$0D49
+	.word	$02D0 
+	.word	$0315
+	.word	$00D7
+	.word	$03B2 
+	.word	$1128
+	.word	$125A 
+	.word	$03B8
+	.word	$265B
+	.word	$1AAB
+	.word	$0279 
+	.word	$0287
+	.word	$035A
+	.word	$0D49
+	.word	$02D0
+	.word	$12CB
+	.word	$02DE 
+	.word	$02F5 
+	.word	$03C3 
+	.word	$005F 
+	.word	$103A
+	.word	$0EEF
+	.word	$0315 
+	.word	$1671 
+	.word	$00D7 
+	.word	$03B2
+
+
 026C: 3A E0 83    ld   a,($83E0)
 026F: 3C          inc  a
 0270: C8          ret  z
@@ -352,6 +396,7 @@ add_a_to_hl_0010:
 0274: 34          inc  (hl)
 0275: C0          ret  nz
 0276: C3 00 00    jp   $0000
+
 0279: 21 00 70    ld   hl,$7000
 027C: 11 C0 8B    ld   de,$8BC0
 027F: 01 03 00    ld   bc,$0003
@@ -513,6 +558,7 @@ add_a_to_hl_0010:
 03A3: 12          ld   (de),a
 03A4: 34          inc  (hl)
 03A5: C9          ret
+
 03A6: 3A AE 83    ld   a,($83AE)
 03A9: A7          and  a
 03AA: C0          ret  nz
@@ -2159,8 +2205,8 @@ add_a_to_hl_0010:
 106C: B6          or   (hl)
 106D: 32 CC 80    ld   ($80CC),a
 1070: 3A 8C 80    ld   a,($808C)
-1073: 21 90 17    ld   hl,$1790
-1076: E7          rst  $20
+1073: 21 90 17    ld   hl,jump_table_1790
+1076: E7          rst  $20			; [nb_entries=9]
 1077: C9          ret
 1078: 21 88 80    ld   hl,$8088
 107B: 34          inc  (hl)
@@ -2458,6 +2504,7 @@ add_a_to_hl_0010:
 1257: 12          ld   (de),a
 1258: 78          ld   a,b
 1259: C9          ret
+
 125A: 11 FB 83    ld   de,$83FB
 125D: 01 0B 98    ld   bc,$980B
 1260: 21 2C 83    ld   hl,$832C
@@ -3290,20 +3337,20 @@ add_a_to_hl_0010:
 178D: F1          pop  af
 178E: C1          pop  bc
 178F: C9          ret
-1790: A2          and  d
-1791: 17          rla
-1792: B9          cp   c
-1793: 17          rla
-1794: D0          ret  nc
-1795: 17          rla
-1796: E6 17       and  $17
-1798: FC 17 12    call m,$1217
-179B: 18 29       jr   $17C6
-179D: 18 40       jr   $17DF
-179F: 18 54       jr   $17F5
-17A1: 18 3A       jr   $17DD
-17A3: 8A          adc  a,d
-17A4: 80          add  a,b
+
+jump_table_1790:
+	.word	$17A2 
+	.word	$17B9 
+	.word	$17D0 
+	.word	$17E6 
+	.word	$17FC 
+	.word	$1812 
+	.word	$1829 
+	.word	$1840
+	.word	$1854
+
+ 
+
 17A5: 26 00       ld   h,$00
 17A7: 6F          ld   l,a
 17A8: 29          add  hl,hl
@@ -5411,19 +5458,19 @@ add_a_to_hl_0010:
 292B: 3C          inc  a
 292C: CD 18 29    call $2918
 292F: CD 1D 30    call $301D
-2932: 21 3C 29    ld   hl,$293C
+2932: 21 3C 29    ld   hl,jump_table_293c
 2935: 3A B9 89    ld   a,($89B9)
-2938: E7          rst  $20
+2938: E7          rst  $20		; [nb_entries=6]
 2939: C3 2F 29    jp   $292F
-293C: 4D          ld   c,l
-293D: 29          add  hl,hl
-293E: 5F          ld   e,a
-293F: 2A CE 2B    ld   hl,($2BCE)
-2942: CE 2F       adc  a,$2F
-2944: 51          ld   d,c
-2945: 34          inc  (hl)
-2946: 48          ld   c,b
-2947: 29          add  hl,hl
+
+jump_table_293c:
+	.word 	$294D 
+	.word 	$2A5F 
+	.word 	$2BCE
+	.word 	$2FCE
+	.word 	$3451
+	.word 	$2948
+
 2948: AF          xor  a
 2949: 32 B9 89    ld   ($89B9),a
 294C: C9          ret
@@ -5856,8 +5903,8 @@ add_a_to_hl_0010:
 2C03: CD 1C 2C    call $2C1C
 2C06: AF          xor  a
 2C07: 32 BA 89    ld   ($89BA),a
-2C0A: 21 3F 2C    ld   hl,$2C3F
-2C0D: E7          rst  $20
+2C0A: 21 3F 2C    ld   hl,jump_table_2c3f
+2C0D: E7          rst  $20		; [nb_entries=20]
 2C0E: 3A BA 89    ld   a,($89BA)
 2C11: 3C          inc  a
 2C12: 20 F3       jr   nz,$2C07
@@ -5885,37 +5932,29 @@ add_a_to_hl_0010:
 2C3B: 2B          dec  hl
 2C3C: 36 74       ld   (hl),$74
 2C3E: C9          ret
-2C3F: 72          ld   (hl),d
-2C40: 2C          inc  l
-2C41: CE 2C       adc  a,$2C
-2C43: 0B          dec  bc
-2C44: 2D          dec  l
-2C45: 34          inc  (hl)
-2C46: 2D          dec  l
-2C47: 5A          ld   e,d
-2C48: 2D          dec  l
-2C49: 80          add  a,b
-2C4A: 2D          dec  l
-2C4B: C4 2C 15    call nz,$152C
-2C4E: 08          ex   af,af'
-2C4F: 72          ld   (hl),d
-2C50: 2E B9       ld   l,$B9
-2C52: 2E DF       ld   l,$DF
-2C54: 2E E9       ld   l,$E9
-2C56: 2E 09       ld   l,$09
-2C58: 2F          cpl
-2C59: 42          ld   b,d
-2C5A: 2F          cpl
-2C5B: 7E          ld   a,(hl)
-2C5C: 2F          cpl
-2C5D: C4 2C 15    call nz,$152C
-2C60: 08          ex   af,af'
-2C61: 67          ld   h,a
-2C62: 2C          inc  l
-2C63: 1C          inc  e
-2C64: 2C          inc  l
-2C65: 6C          ld   l,h
-2C66: 2C          inc  l
+
+jump_table_2c3f:
+	.word	$2C72  
+	.word	$2CCE  
+	.word	$2D0B  
+	.word	$2D34  
+	.word	$2D5A  
+	.word	$2D80 
+	.word	$2CC4 
+	.word	$0815 
+	.word	$2E72 
+	.word	$2EB9 
+	.word	$2EDF 
+	.word	$2EE9 
+	.word	$2F09  
+	.word	$2F42 
+	.word	$2F7E  
+	.word	$2CC4 
+	.word	$0815 
+	.word	$2C67 
+	.word	$2C1C 
+	.word	$2C6C 
+
 2C67: 3E 4E       ld   a,$4E
 2C69: C3 67 0B    jp   $0B67
 2C6C: 3E FF       ld   a,$FF
@@ -6394,13 +6433,13 @@ add_a_to_hl_0010:
 318B: 30 02       jr   nc,$318F
 318D: 3E 01       ld   a,$01
 318F: 32 C4 8B    ld   ($8BC4),a
-3192: 21 EB 32    ld   hl,$32EB
+3192: 21 EB 32    ld   hl,jump_table_32eb
 3195: 3D          dec  a
-3196: E7          rst  $20
+3196: E7          rst  $20		; [nb_entries=5]
 3197: 3A C4 8B    ld   a,($8BC4)
-319A: 21 CD 34    ld   hl,$34CD
+319A: 21 CD 34    ld   hl,jump_table_34cd
 319D: 3D          dec  a
-319E: E7          rst  $20
+319E: E7          rst  $20		; [nb_entries=5]
 319F: 3A C4 8B    ld   a,($8BC4)
 31A2: 21 E6 32    ld   hl,$32E6
 31A5: 3D          dec  a
@@ -6563,8 +6602,14 @@ add_a_to_hl_0010:
 32D9: 10 F8       djnz $32D3
 32DB: C9          ret
 
-32F0: 32 13 33    ld   ($3313),a
-32F3: 1E 33       ld   e,$33
+jump_table_32eb:
+	.word	$32F5  
+	.word	$32F9  
+	.word	$32FD  
+	.word	$3313  
+	.word	$331E 
+
+
 32F5: 3E 0C       ld   a,$0C
 32F7: 18 06       jr   $32FF
 32F9: 3E 08       ld   a,$08
@@ -6829,19 +6874,23 @@ add_a_to_hl_0010:
 34C8: FE 56       cp   $56
 34CA: 20 F7       jr   nz,$34C3
 34CC: C9          ret
-34CD: D7          rst  $10   ; add_a_to_hl
-34CE: 34          inc  (hl)
-34CF: DC 34 E1    call c,$E134
-34D2: 34          inc  (hl)
-34D3: E6 34       and  $34
-34D5: F9          ld   sp,hl
-34D6: 34          inc  (hl)
+
+jump_table_34cd:
+	.word	$34D7 
+	.word	$34DC
+	.word	$34E1
+	.word	$34E6 
+	.word	$34F9
+
 34D7: 01 08 00    ld   bc,$0008
 34DA: 18 0D       jr   $34E9
+
 34DC: 01 06 00    ld   bc,$0006
 34DF: 18 08       jr   $34E9
+
 34E1: 01 04 00    ld   bc,$0004
 34E4: 18 03       jr   $34E9
+
 34E6: 01 02 00    ld   bc,$0002
 34E9: 21 D5 81    ld   hl,$81D5
 34EC: 11 D7 81    ld   de,$81D7
@@ -6850,6 +6899,7 @@ add_a_to_hl_0010:
 34F4: ED A8       ldd
 34F6: ED A8       ldd
 34F8: C9          ret
+
 34F9: 11 D7 81    ld   de,$81D7
 34FC: 18 F3       jr   $34F1
 34FE: 21 BF 89    ld   hl,$89BF
