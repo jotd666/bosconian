@@ -1,7 +1,7 @@
 *
-*	Amiga-specific portions of Rally'X
+*	Amiga-specific portions of Bosconian
 *
-* (c) JOTD 2025-2026
+* (c) JOTD 2026
 *
 
 
@@ -686,8 +686,8 @@ demo_game:
 	move.l	a6,a2
 	add.l	#0xFFFF,a3			| trash A3 to match MAME IY
 	add.l	#0xFFFF,a2			| trash A3 to match MAME IX
-	jbsr	reset_3911
-	jra		start_0003					| pass control to the mpatrol core
+	*jbsr	reset_3911
+	jra		reset_0000					| pass control to the mpatrol core
 		
 cpu_init:
 	moveq	#0,d0
@@ -714,7 +714,7 @@ do_irq:
 	jbsr	cpu_init
 	jbsr	osd_disable_interrupts
 	move.w	#0x2000,sr		| allow keyboard interrupt
-	jbsr	irq_01f0
+	jbsr	irq_01e6
 	jbsr	osd_enable_interrupts
 	rts
 

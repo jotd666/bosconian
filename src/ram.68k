@@ -9,6 +9,7 @@
 	.global	fprime
 	.global	iyl
 	.global	iyh
+	.global	save_stack
 
 	.global highscore_needs_saving_flag
 	.global	regscopy
@@ -49,6 +50,8 @@ ram_start_8000:
 high_score_beaten:
 	.word	0
 stack_top:
+	.long	0
+save_stack:
 	.long	0
 sprite_ram_9000:
 	.skip	0x500
