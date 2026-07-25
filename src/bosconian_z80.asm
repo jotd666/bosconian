@@ -12,6 +12,8 @@
 ;	map(0xa170, 0xa170).nopw();            // ?
 ;	map(0xa180, 0xa187).w("mainlatch", FUNC(ls259_device::write_d0));
 
+dummy_6830 = $6830
+
 0000: 31 40 80    ld   sp,$8040
 0003: C3 0E 01    jp   $010E
 
@@ -123,7 +125,7 @@ indirect_jump_0020:
 009D: 3E 07       ld   a,$07
 009F: 32 30 98    ld   ($9830),a
 00A2: 3A 04 68    ld   a,($6804)
-00A5: 32 30 68    ld   ($6830),a
+00A5: 32 30 68    ld   (dummy_6830),a
 00A8: E6 02       and  $02
 00AA: C0          ret  nz
 00AB: 01 FA 0D    ld   bc,$0DFA
@@ -207,7 +209,7 @@ indirect_jump_0020:
 0131: 22 D2 83    ld   ($83D2),hl
 0134: CD B5 00    call $00B5
 0137: 01 00 20    ld   bc,$2000
-013A: 32 30 68    ld   ($6830),a
+013A: 32 30 68    ld   (dummy_6830),a
 013D: 0D          dec  c
 013E: 20 FA       jr   nz,$013A
 0140: 10 F8       djnz $013A
@@ -337,7 +339,7 @@ indirect_jump_0020:
 024A: CD B5 00    call $00B5
 024D: CD BB 16    call $16BB
 0250: 3A 04 68    ld   a,($6804)
-0253: 32 30 68    ld   ($6830),a
+0253: 32 30 68    ld   (dummy_6830),a
 0256: E6 02       and  $02
 0258: CC 9D 00    call z,$009D
 025B: 3E 01       ld   a,$01
@@ -4694,42 +4696,7 @@ jump_table_1790:
 22D3: 32 08 8A    ld   ($8A08),a
 22D6: F1          pop  af
 22D7: C9          ret
-22D8: 13          inc  de
-22D9: 13          inc  de
-22DA: 13          inc  de
-22DB: 12          ld   (de),a
-22DC: 13          inc  de
-22DD: 10 10       djnz $22EF
-22DF: 13          inc  de
-22E0: 13          inc  de
-22E1: 13          inc  de
-22E2: 13          inc  de
-22E3: 13          inc  de
-22E4: 11 11 11    ld   de,$1111
-22E7: 11 11 11    ld   de,$1111
-22EA: 11 11 11    ld   de,$1111
-22ED: 11 11 89    ld   de,$8911
-22F0: 89          adc  a,c
-22F1: 00          nop
-22F2: 87          add  a,a
-22F3: 89          adc  a,c
-22F4: 88          adc  a,b
-22F5: 88          adc  a,b
-22F6: 00          nop
-22F7: 00          nop
-22F8: 00          nop
-22F9: 00          nop
-22FA: 00          nop
-22FB: B8          cp   b
-22FC: 88          adc  a,b
-22FD: 88          adc  a,b
-22FE: 88          adc  a,b
-22FF: 88          adc  a,b
-2300: 88          adc  a,b
-2301: 88          adc  a,b
-2302: 88          adc  a,b
-2303: 88          adc  a,b
-2304: 88          adc  a,b
+
 2305: E5          push hl
 2306: D5          push de
 2307: C5          push bc
@@ -5366,6 +5333,7 @@ flags_changing_275a:
 2932: 21 3C 29    ld   hl,jump_table_293c
 2935: 3A B9 89    ld   a,($89B9)
 2938: E7          rst  $20		; [nb_entries=6]
+
 2939: C3 2F 29    jp   $292F
 
 jump_table_293c:
@@ -6034,7 +6002,8 @@ jump_table_2c3f:
 3031: 32 D4 8B    ld   ($8BD4),a
 3034: CD 15 08    call $0815
 3037: ED 7B B7 89 ld   sp,($89B7)
-303B: C9          ret
+303B: C9          ret					; jumps to $0460 when credit is inserted
+
 303C: E5          push hl
 303D: 21 7C 80    ld   hl,$807C
 3040: 7E          ld   a,(hl)
@@ -6749,7 +6718,7 @@ rest_of_boot_3632:
 3635: 32 23 68    ld   ($6823),a
 3638: 32 00 91    ld   ($9100),a
 363B: 06 80       ld   b,$80
-363D: 32 30 68    ld   ($6830),a		; write in ROM
+363D: 32 30 68    ld   (dummy_6830),a		; write in ROM
 3640: 3D          dec  a
 3641: 20 FA       jr   nz,$363D
 3643: 10 F8       djnz $363D
@@ -6775,7 +6744,7 @@ rest_of_boot_3632:
 3670: 87          add  a,a
 3671: ED 6A       adc  hl,hl
 3673: 7D          ld   a,l
-3674: 32 30 68    ld   ($6830),a
+3674: 32 30 68    ld   (dummy_6830),a		; write in ROM
 3677: 12          ld   (de),a
 3678: 13          inc  de
 3679: 0B          dec  bc
@@ -6795,7 +6764,7 @@ rest_of_boot_3632:
 368F: AD          xor  l
 3690: C2 AF 37    jp   nz,$37AF
 3693: 13          inc  de
-3694: 32 30 68    ld   ($6830),a
+3694: 32 30 68    ld   (dummy_6830),a
 3697: 0B          dec  bc
 3698: 78          ld   a,b
 3699: B1          or   c
@@ -6810,7 +6779,7 @@ rest_of_boot_3632:
 36A9: 87          add  a,a
 36AA: ED 6A       adc  hl,hl
 36AC: 7D          ld   a,l
-36AD: 32 30 68    ld   ($6830),a
+36AD: 32 30 68    ld   (dummy_6830),a
 36B0: 12          ld   (de),a
 36B1: 13          inc  de
 36B2: 0B          dec  bc
@@ -6830,7 +6799,7 @@ rest_of_boot_3632:
 36C8: AD          xor  l
 36C9: C2 AF 37    jp   nz,$37AF
 36CC: 13          inc  de
-36CD: 32 30 68    ld   ($6830),a
+36CD: 32 30 68    ld   (dummy_6830),a
 36D0: 0B          dec  bc
 36D1: 78          ld   a,b
 36D2: B1          or   c
@@ -6845,7 +6814,7 @@ rest_of_boot_3632:
 36E2: 87          add  a,a
 36E3: ED 6A       adc  hl,hl
 36E5: 7D          ld   a,l
-36E6: 32 30 68    ld   ($6830),a
+36E6: 32 30 68    ld   (dummy_6830),a
 36E9: 12          ld   (de),a
 36EA: 13          inc  de
 36EB: 0B          dec  bc
@@ -6865,7 +6834,7 @@ rest_of_boot_3632:
 3701: AD          xor  l
 3702: C2 AF 37    jp   nz,$37AF
 3705: 13          inc  de
-3706: 32 30 68    ld   ($6830),a
+3706: 32 30 68    ld   (dummy_6830),a
 3709: 0B          dec  bc
 370A: 78          ld   a,b
 370B: B1          or   c
@@ -6895,7 +6864,7 @@ rest_of_boot_3632:
 374B: 21 84 3E    ld   hl,$3E84
 374E: 11 64 84    ld   de,$8464
 3751: CD 6D 3E    call memcopy_3e6d
-3754: 32 30 68    ld   ($6830),a
+3754: 32 30 68    ld   (dummy_6830),a
 3757: C3 F6 37    jp   end_of_self_tests_37f6
 
 375A: 06 1E       ld   b,$1E
@@ -6915,7 +6884,7 @@ rest_of_boot_3632:
 3770: 87          add  a,a
 3771: ED 6A       adc  hl,hl
 3773: 7D          ld   a,l
-3774: 32 30 68    ld   ($6830),a
+3774: 32 30 68    ld   (dummy_6830),a
 3777: 12          ld   (de),a
 3778: 13          inc  de
 3779: 0B          dec  bc
@@ -6936,7 +6905,7 @@ rest_of_boot_3632:
 378C: AD          xor  l
 378D: C2 AF 37    jp   nz,$37AF
 3790: 13          inc  de
-3791: 32 30 68    ld   ($6830),a
+3791: 32 30 68    ld   (dummy_6830),a
 3794: 0B          dec  bc
 3795: 78          ld   a,b
 3796: B1          or   c
@@ -6986,7 +6955,7 @@ rest_of_boot_3632:
 37EC: 36 0A       ld   (hl),$0A
 37EE: 23          inc  hl
 37EF: 36 16       ld   (hl),$16
-37F1: 32 30 68    ld   ($6830),a
+37F1: 32 30 68    ld   (dummy_6830),a
 37F4: 18 FE       jr   $37F4
 
 end_of_self_tests_37f6:
@@ -7003,7 +6972,7 @@ end_of_self_tests_37f6:
 380E: 3A FF 3F    ld   a,($3FFF)
 3811: 4F          ld   c,a
 3812: CD 8C 3E    call $3E8C
-3815: 32 30 68    ld   ($6830),a
+3815: 32 30 68    ld   (dummy_6830),a
 3818: AF          xor  a
 3819: 32 00 8C    ld   ($8C00),a
 381C: 32 01 8C    ld   ($8C01),a
@@ -7020,7 +6989,7 @@ end_of_self_tests_37f6:
 3833: 32 22 68    ld   ($6822),a
 3836: 32 23 68    ld   ($6823),a
 3839: 32 77 98    ld   ($9877),a
-383C: 32 30 68    ld   ($6830),a
+383C: 32 30 68    ld   (dummy_6830),a
 383F: 3A 00 8C    ld   a,($8C00)
 3842: A7          and  a
 3843: 28 FA       jr   z,$383F
@@ -7038,13 +7007,13 @@ end_of_self_tests_37f6:
 385D: 32 7C 80    ld   ($807C),a
 3860: 32 00 8C    ld   ($8C00),a
 3863: 32 01 8C    ld   ($8C01),a
-3866: 32 30 68    ld   ($6830),a
+3866: 32 30 68    ld   (dummy_6830),a
 3869: 3A 7C 80    ld   a,($807C)
 386C: FE 0C       cp   $0C
 386E: CA 32 36    jp   z,rest_of_boot_3632
 3871: FE 04       cp   $04
 3873: 20 F4       jr   nz,$3869
-3875: 32 30 68    ld   ($6830),a
+3875: 32 30 68    ld   (dummy_6830),a
 3878: 21 39 3F    ld   hl,$3F39
 387B: 11 00 78    ld   de,$7800
 387E: 01 18 00    ld   bc,$0018
@@ -7081,7 +7050,7 @@ end_of_self_tests_37f6:
 38C2: 32 BB 89    ld   ($89BB),a
 38C5: 3A 21 78    ld   a,($7821)
 38C8: 32 AB 89    ld   ($89AB),a
-38CB: 32 30 68    ld   ($6830),a
+38CB: 32 30 68    ld   (dummy_6830),a
 38CE: 3A 22 78    ld   a,($7822)
 38D1: 32 1B 82    ld   ($821B),a
 38D4: 3A 23 78    ld   a,($7823)
@@ -7098,7 +7067,7 @@ end_of_self_tests_37f6:
 38F3: 3E 84       ld   a,$84
 38F5: F7          rst  $30
 38F6: 01 00 20    ld   bc,$2000
-38F9: 32 30 68    ld   ($6830),a
+38F9: 32 30 68    ld   (dummy_6830),a
 38FC: 0D          dec  c
 38FD: 20 FA       jr   nz,$38F9
 38FF: 10 F8       djnz $38F9
@@ -7107,7 +7076,7 @@ end_of_self_tests_37f6:
 3906: 3E 84       ld   a,$84
 3908: F7          rst  $30
 3909: 01 00 40    ld   bc,$4000
-390C: 32 30 68    ld   ($6830),a
+390C: 32 30 68    ld   (dummy_6830),a
 390F: 0D          dec  c
 3910: 20 FA       jr   nz,$390C
 3912: 10 F8       djnz $390C
@@ -7115,7 +7084,7 @@ end_of_self_tests_37f6:
 3917: 0E 05       ld   c,$05
 3919: 3E 84       ld   a,$84
 391B: F7          rst  $30
-391C: 32 30 68    ld   ($6830),a
+391C: 32 30 68    ld   (dummy_6830),a
 391F: 3A 00 71    ld   a,($7100)
 3922: FE 10       cp   $10
 3924: 20 F6       jr   nz,$391C
@@ -7726,7 +7695,7 @@ end_of_self_tests_37f6:
 3DFE: 11 01 80    ld   de,$8001
 3E01: 01 00 04    ld   bc,$0400
 3E04: 36 00       ld   (hl),$00
-3E06: 32 30 68    ld   ($6830),a
+3E06: 32 30 68    ld   (dummy_6830),a
 3E09: ED B0       ldir
 3E0B: 36 24       ld   (hl),$24
 3E0D: 01 00 04    ld   bc,$0400
@@ -7743,27 +7712,27 @@ end_of_self_tests_37f6:
 3E24: 21 40 88    ld   hl,$8840
 3E27: 11 60 88    ld   de,$8860
 3E2A: 01 A0 03    ld   bc,$03A0
-3E2D: 32 30 68    ld   ($6830),a
+3E2D: 32 30 68    ld   (dummy_6830),a
 3E30: ED B0       ldir
 3E32: 21 00 8C    ld   hl,$8C00
 3E35: 11 01 8C    ld   de,$8C01
 3E38: 36 62       ld   (hl),$62
 3E3A: 01 00 04    ld   bc,$0400
-3E3D: 32 30 68    ld   ($6830),a
+3E3D: 32 30 68    ld   (dummy_6830),a
 3E40: ED B0       ldir
 3E42: AF          xor  a
 3E43: 21 00 7F    ld   hl,$7F00
 3E46: 11 01 7F    ld   de,$7F01
 3E49: 01 7F 00    ld   bc,$007F
 3E4C: 77          ld   (hl),a
-3E4D: 32 30 68    ld   ($6830),a
+3E4D: 32 30 68    ld   (dummy_6830),a
 3E50: ED B0       ldir
 3E52: 21 00 7F    ld   hl,$7F00
 3E55: 22 90 80    ld   ($8090),hl
 3E58: 22 92 80    ld   ($8092),hl
 3E5B: 32 10 98    ld   ($9810),a
 3E5E: 32 20 98    ld   ($9820),a
-3E61: 32 30 68    ld   ($6830),a
+3E61: 32 30 68    ld   (dummy_6830),a
 3E64: 3C          inc  a
 3E65: 32 1F 8A    ld   ($8A1F),a
 3E68: C9          ret
@@ -7785,7 +7754,7 @@ memcopy_3e6d:
 3E8D: 16 10       ld   d,$10
 3E8F: 06 00       ld   b,$00
 3E91: 86          add  a,(hl)
-3E92: 32 30 68    ld   ($6830),a
+3E92: 32 30 68    ld   (dummy_6830),a
 3E95: 23          inc  hl
 3E96: 10 F9       djnz $3E91
 3E98: 15          dec  d
@@ -7811,7 +7780,7 @@ memcopy_3e6d:
 3EB8: 3E 01       ld   a,$01
 3EBA: 32 23 68    ld   ($6823),a
 3EBD: 01 00 40    ld   bc,$4000
-3EC0: 32 30 68    ld   ($6830),a
+3EC0: 32 30 68    ld   (dummy_6830),a
 3EC3: 0D          dec  c
 3EC4: 20 FA       jr   nz,$3EC0
 3EC6: 10 F8       djnz $3EC0
@@ -7822,5 +7791,5 @@ memcopy_3e6d:
 3ED2: 3A C0 8B    ld   a,($8BC0)
 3ED5: 87          add  a,a
 3ED6: 38 F3       jr   c,$3ECB
-3ED8: 32 30 68    ld   ($6830),a
+3ED8: 32 30 68    ld   (dummy_6830),a
 3EDB: C3 D8 3E    jp   $3ED8
