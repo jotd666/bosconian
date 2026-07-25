@@ -187,7 +187,9 @@ indirect_jump_0020:
 00FD: 77          ld   (hl),a
 00FE: C9          ret
 
-0112: 71          ld   (hl),c
+
+010E: 3E 10       ld   a,$10                                          
+0110: 32 00 71    ld   ($7100),a                                      
 0113: 21 E8 89    ld   hl,$89E8
 0116: 06 18       ld   b,$18
 0118: 36 00       ld   (hl),$00
@@ -195,7 +197,8 @@ indirect_jump_0020:
 011B: 10 FB       djnz $0118
 011D: 3E 07       ld   a,$07
 011F: 32 30 98    ld   ($9830),a
-0122: C3 32 36    jp   $3632
+0122: C3 32 36    jp   rest_of_boot_3632
+
 0125: 3E 10       ld   a,$10
 0127: 32 9A 80    ld   ($809A),a
 012A: 21 C0 83    ld   hl,$83C0
@@ -4785,21 +4788,7 @@ jump_table_1790:
 2367: D1          pop  de
 2368: E1          pop  hl
 2369: C9          ret
-236A: B0          or   b
-236B: 93          sub  e
-236C: B4          or   h
-236D: 96          sub  (hl)
-236E: B8          cp   b
-236F: 9A          sbc  a,d
-2370: BC          cp   h
-2371: A0          and  b
-2372: 88          adc  a,b
-2373: C0          ret  nz
-2374: A1          and  c
-2375: 88          adc  a,b
-2376: C4 A2 88    call nz,$88A2
-2379: C4 A2 88    call nz,$88A2
-237C: C4 A2 88    call nz,$88A2
+
 237F: DD CB 16 46 bit  0,(ix+$16)
 2383: 28 9A       jr   z,$231F
 2385: 3A E5 83    ld   a,($83E5)
@@ -6753,34 +6742,20 @@ jump_table_34cd:
 361D: 2A B2 89    ld   hl,($89B2)
 3620: 77          ld   (hl),a
 3621: C9          ret
-3622: 6A          ld   l,d
-3623: 7C          ld   a,h
-3624: 70          ld   (hl),b
-3625: 7A          ld   a,d
-3626: 72          ld   (hl),d
-3627: 74          ld   (hl),h
-3628: 70          ld   (hl),b
-3629: 6E          ld   l,(hl)
-362A: 6A          ld   l,d
-362B: 6C          ld   l,h
-362C: 64          ld   h,h
-362D: 6E          ld   l,(hl)
-362E: 62          ld   h,d
-362F: 74          ld   (hl),h
-3630: 64          ld   h,h
-3631: 7A          ld   a,d
+
+rest_of_boot_3632:
 3632: F3          di
 3633: 3E 34       ld   a,$34
 3635: 32 23 68    ld   ($6823),a
 3638: 32 00 91    ld   ($9100),a
 363B: 06 80       ld   b,$80
-363D: 32 30 68    ld   ($6830),a
+363D: 32 30 68    ld   ($6830),a		; write in ROM
 3640: 3D          dec  a
 3641: 20 FA       jr   nz,$363D
 3643: 10 F8       djnz $363D
 3645: 3D          dec  a
 3646: 32 00 70    ld   ($7000),a
-3649: 32 00 90    ld   ($9000),a
+3649: 32 00 90    ld   ($9000),a	; not mapped
 364C: 3E 10       ld   a,$10
 364E: 32 00 71    ld   ($7100),a
 3651: 32 00 91    ld   ($9100),a
@@ -6919,9 +6894,10 @@ jump_table_34cd:
 3748: CD FB 3D    call $3DFB
 374B: 21 84 3E    ld   hl,$3E84
 374E: 11 64 84    ld   de,$8464
-3751: CD 6D 3E    call $3E6D
+3751: CD 6D 3E    call memcopy_3e6d
 3754: 32 30 68    ld   ($6830),a
-3757: C3 F6 37    jp   $37F6
+3757: C3 F6 37    jp   end_of_self_tests_37f6
+
 375A: 06 1E       ld   b,$1E
 375C: 21 00 00    ld   hl,$0000
 375F: C5          push bc
@@ -7012,6 +6988,8 @@ jump_table_34cd:
 37EF: 36 16       ld   (hl),$16
 37F1: 32 30 68    ld   ($6830),a
 37F4: 18 FE       jr   $37F4
+
+end_of_self_tests_37f6:
 37F6: 21 00 00    ld   hl,$0000
 37F9: 3A FC 3F    ld   a,($3FFC)
 37FC: 4F          ld   c,a
@@ -7055,7 +7033,7 @@ jump_table_34cd:
 3850: C2 A3 3E    jp   nz,$3EA3
 3853: 11 A4 84    ld   de,$84A4
 3856: 21 DE 3E    ld   hl,$3EDE
-3859: CD 6D 3E    call $3E6D
+3859: CD 6D 3E    call memcopy_3e6d
 385C: AF          xor  a
 385D: 32 7C 80    ld   ($807C),a
 3860: 32 00 8C    ld   ($8C00),a
@@ -7063,7 +7041,7 @@ jump_table_34cd:
 3866: 32 30 68    ld   ($6830),a
 3869: 3A 7C 80    ld   a,($807C)
 386C: FE 0C       cp   $0C
-386E: CA 32 36    jp   z,$3632
+386E: CA 32 36    jp   z,rest_of_boot_3632
 3871: FE 04       cp   $04
 3873: 20 F4       jr   nz,$3869
 3875: 32 30 68    ld   ($6830),a
@@ -7375,7 +7353,7 @@ jump_table_34cd:
 3AE4: 71          ld   (hl),c
 3AE5: 21 8A 3C    ld   hl,$3C8A
 3AE8: 11 A4 85    ld   de,$85A4
-3AEB: CD 6D 3E    call $3E6D
+3AEB: CD 6D 3E    call memcopy_3e6d
 3AEE: 3A 51 80    ld   a,($8051)
 3AF1: 87          add  a,a
 3AF2: E6 06       and  $06
@@ -7391,7 +7369,7 @@ jump_table_34cd:
 3B01: 7E          ld   a,(hl)
 3B02: 32 22 78    ld   ($7822),a
 3B05: 23          inc  hl
-3B06: CD 6D 3E    call $3E6D
+3B06: CD 6D 3E    call memcopy_3e6d
 3B09: 21 4A 3C    ld   hl,$3C4A
 3B0C: 3A AB 89    ld   a,($89AB)
 3B0F: FE 05       cp   $05
@@ -7442,11 +7420,11 @@ jump_table_34cd:
 3B6A: 0D          dec  c
 3B6B: 20 03       jr   nz,$3B70
 3B6D: 21 18 3C    ld   hl,$3C18
-3B70: CD 6D 3E    call $3E6D
+3B70: CD 6D 3E    call memcopy_3e6d
 3B73: 13          inc  de
 3B74: 13          inc  de
 3B75: 13          inc  de
-3B76: CD 6D 3E    call $3E6D
+3B76: CD 6D 3E    call memcopy_3e6d
 3B79: D1          pop  de
 3B7A: E1          pop  hl
 3B7B: E5          push hl
@@ -7486,11 +7464,11 @@ jump_table_34cd:
 3BA8: 28 31       jr   z,$3BDB
 3BAA: 21 31 3C    ld   hl,$3C31
 3BAD: D5          push de
-3BAE: CD 6D 3E    call $3E6D
+3BAE: CD 6D 3E    call memcopy_3e6d
 3BB1: 13          inc  de
 3BB2: 13          inc  de
 3BB3: 13          inc  de
-3BB4: CD 6D 3E    call $3E6D
+3BB4: CD 6D 3E    call memcopy_3e6d
 3BB7: E1          pop  hl
 3BB8: 01 0F 00    ld   bc,$000F
 3BBB: 09          add  hl,bc
@@ -7503,7 +7481,7 @@ jump_table_34cd:
 3BC7: C9          ret
 3BC8: D5          push de
 3BC9: 21 E4 3B    ld   hl,$3BE4
-3BCC: CD 6D 3E    call $3E6D
+3BCC: CD 6D 3E    call memcopy_3e6d
 3BCF: E1          pop  hl
 3BD0: 01 40 00    ld   bc,$0040
 3BD3: 09          add  hl,bc
@@ -7793,30 +7771,16 @@ jump_table_34cd:
 3E6A: 23          inc  hl
 3E6B: 66          ld   h,(hl)
 3E6C: 69          ld   l,c
+
+; < HL: word with number of bytes to copy, then data
+; < DE: source
+memcopy_3e6d:
 3E6D: 4E          ld   c,(hl)
 3E6E: 23          inc  hl
 3E6F: 06 00       ld   b,$00
 3E71: ED B0       ldir
 3E73: C9          ret
-3E74: 1D          dec  e
-3E75: 0A          ld   a,(bc)
-3E76: 0B          dec  bc
-3E77: 15          dec  d
-3E78: 0E 24       ld   c,$24
-3E7A: 24          inc  h
-3E7B: 24          inc  h
-3E7C: 1E 19       ld   e,$19
-3E7E: 1B          dec  de
-3E7F: 12          ld   (de),a
-3E80: 10 11       djnz $3E93
-3E82: 1D          dec  e
-3E83: 24          inc  h
-3E84: 07          rlca
-3E85: 1B          dec  de
-3E86: 0A          ld   a,(bc)
-3E87: 16 24       ld   d,$24
-3E89: 24          inc  h
-3E8A: 18 14       jr   $3EA0
+
 3E8C: AF          xor  a
 3E8D: 16 10       ld   d,$10
 3E8F: 06 00       ld   b,$00
