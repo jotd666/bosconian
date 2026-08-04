@@ -14,6 +14,7 @@
 
 dummy_6830 = $6830
 stack_save_89b7 = $89b7
+nb_lives_83e2 = $83e2
 
 reset_0000:  ; [global]
 0000: 31 40 80    ld   sp,$8040
@@ -439,7 +440,7 @@ jump_table_03d8:
 02B4: 77          ld   (hl),a
 02B5: 2B          dec  hl
 02B6: 10 F8       djnz $02B0
-02B8: 21 E2 83    ld   hl,$83E2
+02B8: 21 E2 83    ld   hl,nb_lives_83e2
 02BB: 7E          ld   a,(hl)
 02BC: A7          and  a
 02BD: C8          ret  z
@@ -592,7 +593,7 @@ jump_table_03d8:
 03C6: 18 F3       jr   $03BB
 
 0420: 32 18 82    ld   ($8218),a
-0423: 3A E2 83    ld   a,($83E2)
+0423: 3A E2 83    ld   a,(nb_lives_83e2)
 0426: C3 63 0C    jp   $0C63
 0429: E6 02       and  $02
 042B: C8          ret  z
@@ -667,7 +668,7 @@ jump_table_03d8:
 04B7: 77          ld   (hl),a
 04B8: C9          ret
 04B9: 3E 01       ld   a,$01
-04BB: 32 E2 83    ld   ($83E2),a
+04BB: 32 E2 83    ld   (nb_lives_83e2),a
 04BE: C3 88 05    jp   $0588
 04C1: 27          daa
 04C2: 47          ld   b,a
@@ -739,7 +740,7 @@ jump_table_03d8:
 0551: 0E 08       ld   c,$08
 0553: CD F9 07    call $07F9
 0556: 3A AB 89    ld   a,($89AB)
-0559: 32 E2 83    ld   ($83E2),a
+0559: 32 E2 83    ld   (nb_lives_83e2),a
 055C: 6F          ld   l,a
 055D: 26 00       ld   h,$00
 055F: 22 CA 81    ld   ($81CA),hl
@@ -754,7 +755,7 @@ jump_table_03d8:
 0579: 32 09 8A    ld   ($8A09),a
 057C: 21 01 01    ld   hl,$0101
 057F: 22 DC 89    ld   ($89DC),hl
-0582: 3A E2 83    ld   a,($83E2)
+0582: 3A E2 83    ld   a,(nb_lives_83e2)
 0585: CD 63 0C    call $0C63
 0588: AF          xor  a
 0589: 67          ld   h,a
@@ -873,7 +874,7 @@ jump_table_03d8:
 0688: C4 C9 2C    call nz,$2CC9
 068B: 3E 03       ld   a,$03
 068D: 32 E0 83    ld   ($83E0),a
-0690: 3A E2 83    ld   a,($83E2)
+0690: 3A E2 83    ld   a,(nb_lives_83e2)
 0693: 3D          dec  a
 0694: CD 63 0C    call $0C63
 0697: 3E 01       ld   a,$01
@@ -963,7 +964,7 @@ jump_table_03d8:
 0756: 3A AE 83    ld   a,($83AE)
 0759: A7          and  a
 075A: C0          ret  nz
-075B: 21 E2 83    ld   hl,$83E2
+075B: 21 E2 83    ld   hl,nb_lives_83e2
 075E: 35          dec  (hl)
 075F: CA D3 08    jp   z,$08D3
 0762: AF          xor  a
@@ -1072,7 +1073,7 @@ jump_table_03d8:
 084C: 32 8D 80    ld   ($808D),a
 084F: C9          ret
 0850: 21 A8 89    ld   hl,$89A8
-0853: 11 E2 83    ld   de,$83E2
+0853: 11 E2 83    ld   de,nb_lives_83e2
 0856: CD CC 08    call $08CC
 0859: 1C          inc  e
 085A: CD CC 08    call $08CC
@@ -1139,7 +1140,7 @@ jump_table_03d8:
 08D7: 3A 7C 80    ld   a,($807C)
 08DA: FE 20       cp   $20
 08DC: 38 F9       jr   c,$08D7
-08DE: 3A E2 83    ld   a,($83E2)
+08DE: 3A E2 83    ld   a,(nb_lives_83e2)
 08E1: A7          and  a
 08E2: C2 62 07    jp   nz,$0762
 08E5: 2A B0 89    ld   hl,($89B0)
@@ -1259,7 +1260,7 @@ jump_table_03d8:
 09EC: CD F9 07    call $07F9
 09EF: 3A AB 89    ld   a,($89AB)
 09F2: 3C          inc  a
-09F3: 32 E2 83    ld   ($83E2),a
+09F3: 32 E2 83    ld   (nb_lives_83e2),a
 09F6: 21 CA 81    ld   hl,$81CA
 09F9: CD 14 0A    call $0A14
 09FC: 21 A5 80    ld   hl,$80A5
@@ -6487,7 +6488,7 @@ rest_of_boot_3632:
 3635: 32 23 68    ld   ($6823),a
 3638: 32 00 91    ld   ($9100),a
 363B: 06 80       ld   b,$80
-363D: 32 30 68    ld   (dummy_6830),a		; write in ROM
+363D: 32 30 68    ld   (dummy_6830),a		; write in ????
 3640: 3D          dec  a
 3641: 20 FA       jr   nz,$363D
 3643: 10 F8       djnz $363D
