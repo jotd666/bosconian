@@ -1,5 +1,6 @@
 	.global infinite_lives_flag
 	.global invincible_flag
+	.global kill_flag
 	.global start_level
 	.global vb_ticks_count
 	.global break_at_startup_flag
@@ -53,8 +54,7 @@ stack_top:
 	.long	0
 save_stack:
 	.long	0
-sprite_ram_9000:
-	.skip	0x500
+
 	
 regscopy:
 	.skip	56
@@ -75,8 +75,7 @@ infinite_lives_flag:
 	.byte	0
 infinite_time_flag:
 	.byte	0
-music_off_flag:
-	.byte 	0
+
 
 	.ifndef	RELEASE
 log_ptr:
@@ -98,7 +97,7 @@ iyh:
 iyl:
 	.byte	0
 
-no_sync_flag:
+kill_flag:
 	.byte 	0
 break_at_startup_flag:
 	.byte	0

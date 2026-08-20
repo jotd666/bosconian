@@ -15,6 +15,8 @@
 dummy_6830 = $6830
 stack_save_89b7 = $89b7
 nb_lives_83e2 = $83e2
+p1_a000 = $a000
+p2_a080 = $a080
 
 reset_0000:  ; [global]
 0000: 31 40 80    ld   sp,$8040

@@ -5,17 +5,21 @@
 
 ;CHIP_ONLY
 
-EXPMEM = $800000
+CHIP_BASE = $200
+
+	IFD	CHIP_ONLY
+EXPMEM = 0
+CHIPSIZE = $200000
+dd
+	ELSE
+EXPMEM = $80000
 CHIPSIZE = $80000
+	ENDC
 
 _base	SLAVE_HEADER					; ws_security + ws_id
 	dc.w	17					; ws_version (was 10)
 	dc.w	WHDLF_NoError
-    IFD CHIP_ONLY
-	dc.l	CHIPSIZE+$80000+EXPMEM					; ws_basememsize
-	ELSE
-	dc.l	CHIPSIZE
-	ENDC
+	dc.l	CHIPSIZE					; ws_basememsize
 	dc.l	0					; ws_execinstall
 	dc.w	start-_base		; ws_gameloader
 	dc.w	_data-_base					; ws_currentdir
@@ -41,14 +45,13 @@ _expmem
 _config
 	dc.b	"C1:X:invincible:0;"
 	dc.b	"C1:X:infinite lives:1;"
+	dc.b	"C1:X:infinite fuel:2;"
+
 	dc.b	"C1:X:cheat keys:4;"
-	dc.b	"C2:X:fast game:0;"
-	dc.b	"C2:X:start with 5 lives:1;"
-;	dc.b	"C2:X:leave gate bug:2;"	; not interesting, cassette version doesn't have it
+	dc.b	"C4:L:start level:1,2,3 (c1),4,5,6,7 (c2),8,9,10,11 (c3),"
+	dc.b	"12,13,14,15 (c4),16,17,18,19,20;"
 ;	dc.b	"C3:X:25 Hz update:0;"
-	IFD		CHIP_ONLY
-	dc.b	"C3:X:break at startup:31;"
-	ENDC
+
 	dc.b	0
 
 	IFD BARFLY
@@ -56,7 +59,7 @@ _config
 	ENDC
 
 DECL_VERSION:MACRO
-	dc.b	"1.1"
+	dc.b	"1.0"
 	IFD BARFLY
 		dc.b	" "
 		INCBIN	"T:date"
@@ -67,7 +70,7 @@ DECL_VERSION:MACRO
 	ENDC
 	ENDM
 _data   dc.b    0
-_name	dc.b	"Rally'X",0
+_name	dc.b	"Rally'X (OCS)",0
 _copy	dc.b	'2026 JOTD',0
 _info
     dc.b    "Original by Namco 1980",0
@@ -85,7 +88,7 @@ start:
     
     IFD CHIP_ONLY
     lea  _expmem(pc),a0
-    move.l  #$60000,(a0)
+    move.l  #$200,(a0)
 	ELSE
 	move.l	_expmem(pc),a0
 	add.l	#EXPMEM,a0
@@ -114,7 +117,7 @@ _Relocate	movem.l	d0-d1/a0-a2,-(sp)
 ;        pea     -1                      ;true
 ;        pea     WHDLTAG_LOADSEG
 		IFND		CHIP_ONLY
-        move.l  #$400,-(a7)       ;chip area
+        move.l  #CHIP_BASE,-(a7)       ;chip area
         pea     WHDLTAG_CHIPPTR        
         pea     8                       ;8 byte alignment
         pea     WHDLTAG_ALIGN
@@ -137,6 +140,6 @@ progstart
     dc.l    0
 
 exe:
-	dc.b	"rallyx",0
+	dc.b	"rallyx_ecs",0
 
 	
