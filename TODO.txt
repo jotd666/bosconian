@@ -1,5 +1,14 @@
 - skip boot sequence
 
+
+    6 @  do 
+    3 @  do 
+
+bpset 3663,,{PC=$3713;g}
+bpset 375A,,{PC=$3766;g}
+
+
+
 - set DSW difficulty lives, etc.
 - cheat add 10000 to score 
 - highscore load/save

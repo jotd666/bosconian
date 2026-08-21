@@ -20,7 +20,7 @@ p2_a080 = $a080
 
 reset_0000:  ; [global]
 0000: 31 40 80    ld   sp,$8040
-0003: C3 0E 01    jp   $010E
+0003: C3 0E 01    jp   continue_boot_010e
 
 add_2a_to_hl_0008:
 0008: 87          add  a,a
@@ -129,6 +129,7 @@ irq_0038:
 0099: F1          pop  af
 009A: D9          exx
 009B: ED 45       retn
+
 009D: 3E 07       ld   a,$07
 009F: 32 30 98    ld   ($9830),a
 00A2: 3A 04 68    ld   a,($6804)
@@ -196,7 +197,7 @@ irq_0038:
 00FD: 77          ld   (hl),a
 00FE: C9          ret
 
-
+continue_boot_010e:
 010E: 3E 10       ld   a,$10                                          
 0110: 32 00 71    ld   ($7100),a                                      
 0113: 21 E8 89    ld   hl,$89E8
@@ -6516,7 +6517,7 @@ rest_of_boot_3632:
 3670: 87          add  a,a
 3671: ED 6A       adc  hl,hl
 3673: 7D          ld   a,l
-3674: 32 30 68    ld   (dummy_6830),a		; write in ROM
+3674: 32 30 68    ld   (dummy_6830),a		; write in ???
 3677: 12          ld   (de),a
 3678: 13          inc  de
 3679: 0B          dec  bc
@@ -6524,8 +6525,9 @@ rest_of_boot_3632:
 367B: B1          or   c
 367C: 20 EE       jr   nz,$366C
 367E: 11 00 84    ld   de,$8400
-3681: 21 00 00    ld   hl,$0000
+3681: 21 00 00    ld   hl,$0000		; pattern
 3684: 01 00 04    ld   bc,$0400
+; screen test loop
 3687: 7D          ld   a,l
 3688: AC          xor  h
 3689: 2F          cpl
@@ -6542,7 +6544,7 @@ rest_of_boot_3632:
 3699: B1          or   c
 369A: 20 EB       jr   nz,$3687
 369C: 11 00 84    ld   de,$8400
-369F: 21 55 55    ld   hl,$5555
+369F: 21 55 55    ld   hl,$5555		; pattern
 36A2: 01 00 04    ld   bc,$0400
 36A5: 7D          ld   a,l
 36A6: AC          xor  h
@@ -6614,31 +6616,33 @@ rest_of_boot_3632:
 370E: D9          exx
 370F: 05          dec  b
 3710: C2 62 36    jp   nz,$3662
+end_of_tests_1_3713:
 3713: 31 00 88    ld   sp,$8800
 3716: 11 00 78    ld   de,$7800
-3719: CD 5A 37    call $375A
+3719: CD 5A 37    call mem_test_375a
 371C: 11 00 7C    ld   de,$7C00
-371F: CD 5A 37    call $375A
+371F: CD 5A 37    call mem_test_375a
 3722: 11 00 80    ld   de,$8000
-3725: CD 5A 37    call $375A
+3725: CD 5A 37    call mem_test_375a
 3728: 31 00 7B    ld   sp,$7B00
 372B: 11 00 84    ld   de,$8400
-372E: CD 5A 37    call $375A
+372E: CD 5A 37    call mem_test_375a
 3731: 21 E8 89    ld   hl,$89E8
 3734: 01 18 00    ld   bc,$0018
 3737: 11 00 7C    ld   de,$7C00
 373A: ED B0       ldir
 373C: 11 00 88    ld   de,$8800
-373F: CD 5A 37    call $375A
+373F: CD 5A 37    call mem_test_375a
 3742: 11 00 8C    ld   de,$8C00
-3745: CD 5A 37    call $375A
+3745: CD 5A 37    call mem_test_375a
 3748: CD FB 3D    call $3DFB
 374B: 21 84 3E    ld   hl,$3E84
 374E: 11 64 84    ld   de,$8464
-3751: CD 6D 3E    call memcopy_3e6d
+3751: CD 6D 3E    call memcopy_3e6d		; [video_address]
 3754: 32 30 68    ld   (dummy_6830),a
 3757: C3 F6 37    jp   end_of_self_tests_37f6
 
+mem_test_375a:
 375A: 06 1E       ld   b,$1E
 375C: 21 00 00    ld   hl,$0000
 375F: C5          push bc
@@ -6646,6 +6650,7 @@ rest_of_boot_3632:
 3763: C1          pop  bc
 3764: 10 F9       djnz $375F
 3766: C9          ret
+
 3767: D5          push de
 3768: E5          push hl
 3769: 01 00 04    ld   bc,$0400
@@ -7323,30 +7328,30 @@ end_of_self_tests_37f6:
 3E01: 01 00 04    ld   bc,$0400
 3E04: 36 00       ld   (hl),$00
 3E06: 32 30 68    ld   (dummy_6830),a
-3E09: ED B0       ldir
-3E0B: 36 24       ld   (hl),$24
+3E09: ED B0       ldir			; [video_address]
+3E0B: 36 24       ld   (hl),$24			; [video_address]
 3E0D: 01 00 04    ld   bc,$0400
-3E10: ED B0       ldir
-3E12: 36 00       ld   (hl),$00
+3E10: ED B0       ldir				; [video_address]
+3E12: 36 00       ld   (hl),$00			; [video_address]
 3E14: 0E 40       ld   c,$40
-3E16: ED B0       ldir
-3E18: 36 60       ld   (hl),$60
+3E16: ED B0       ldir			; [video_address]
+3E18: 36 60       ld   (hl),$60		; [video_address]
 3E1A: 0E 08       ld   c,$08
-3E1C: ED B0       ldir
-3E1E: 36 00       ld   (hl),$00
+3E1C: ED B0       ldir			; [video_address]
+3E1E: 36 00       ld   (hl),$00  ; [video_address]
 3E20: 0E 18       ld   c,$18
-3E22: ED B0       ldir
+3E22: ED B0       ldir   ; [video_address]
 3E24: 21 40 88    ld   hl,$8840
 3E27: 11 60 88    ld   de,$8860
 3E2A: 01 A0 03    ld   bc,$03A0
 3E2D: 32 30 68    ld   (dummy_6830),a
-3E30: ED B0       ldir
+3E30: ED B0       ldir			; [video_address]
 3E32: 21 00 8C    ld   hl,$8C00
 3E35: 11 01 8C    ld   de,$8C01
-3E38: 36 62       ld   (hl),$62
+3E38: 36 62       ld   (hl),$62    ; [video_address]
 3E3A: 01 00 04    ld   bc,$0400
 3E3D: 32 30 68    ld   (dummy_6830),a
-3E40: ED B0       ldir
+3E40: ED B0       ldir    ; [video_address]
 3E42: AF          xor  a
 3E43: 21 00 7F    ld   hl,$7F00
 3E46: 11 01 7F    ld   de,$7F01
@@ -7399,11 +7404,11 @@ memcopy_3e6d:
 3EA8: 3E 24       ld   a,$24
 3EAA: 32 AA 84    ld   ($84AA),a
 3EAD: 21 A4 84    ld   hl,$84A4
-3EB0: 36 1B       ld   (hl),$1B
+3EB0: 36 1B       ld   (hl),$1B		; [video_address]
 3EB2: 23          inc  hl
-3EB3: 36 18       ld   (hl),$18
+3EB3: 36 18       ld   (hl),$18		; [video_address]
 3EB5: 23          inc  hl
-3EB6: 36 16       ld   (hl),$16
+3EB6: 36 16       ld   (hl),$16		; [video_address]
 3EB8: 3E 01       ld   a,$01
 3EBA: 32 23 68    ld   ($6823),a
 3EBD: 01 00 40    ld   bc,$4000

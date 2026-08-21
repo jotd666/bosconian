@@ -706,9 +706,7 @@ demo_game:
 	add.l	#p1_a000,a0
 	st.b	(p2_a080-p1_a000,a0)
 	st.b	(a0)
-	illegal
-	*jbsr	reset_0000
-	*jra		start_0003					| pass control to the mpatrol core
+	jra	reset_0000			| pass control to the bosconian core
 		
 cpu_init:
 	moveq	#0,d0
