@@ -112,7 +112,7 @@ def game_specific(address,lines,i):
     elif address == 0x3037:
         line = change_instruction("move.l\tsave_stack,a7",lines,i)
     elif address == 0x3663:
-        line = change_instruction("jra\tend_of_tests_1_3713",lines,i)
+        line = change_instruction("jra\tend_of_rom_checksum_3815",lines,i)
     elif address == 0x375A:
         line = change_instruction("rts",lines,i)
     if "review if carry flag not used" in line or "addx mix" in line:
@@ -322,8 +322,8 @@ with open(source_dir / "conv.s") as f:
 
                 if "ldir" in line:
                     line = line.replace("ldir","ldir_video" if "[video_address" in line else "ldir_unchecked")
-                elif "memcopy_3e6d" in line and "jbsr" in line and "[video_address" in line:
-                    line = line.replace("memcopy_3e6d","memcopy_3e6d_video")
+                elif "memcpy_3e6" in line and "jbsr" in line and "[video_address" in line:
+                    line = re.sub(r"(memcpy_3e6\w)","\\1_video",line)
                 elif "[video_address" in line:
                     if ",(a0)" in line or ("(a0)" in line and "clr.b" in line):
                         line += "\tVIDEO_BYTE_DIRTY | [...]\n"
@@ -410,13 +410,19 @@ with open(source_dir / f"{gamename}.68k","w") as fw:
     fw.writelines(new_lines)
     fw.write("""* < HL: word with number of bytes to copy, then data
 * < DE: source
-memcopy_3e6d_video:
-    MAKE_HL    a0                                 | [$3e6d: ld   c,(hl)]
-    move.b    (a0),d2                             | [...]
-    MAKE_HL_NO_AR                              | [$3e6e: inc  hl]
+memcpy_3e69_video:
+    MAKE_HL    a0                                 | [$3e69: ld   c,(hl)]
+    move.b    (a0)+,d2                             | [...]
     addq.w    #1,d6                               | [...]
     MAKE_H                                     | [...]
-    move.b    #0x00,d1                            | [$3e6f: ld   b,$00]
+    move.b    (a0),d5                             | [...]
+    move.b    d2,d6                               | [$3e6c: ld   l,c]
+memcpy_3e6d_video:
+    MAKE_HL    a0                                 | [$3e6d: ld   c,(hl)]
+    move.b    (a0),d2                             | [...]
+    addq.w    #1,d6                               | [...]
+    MAKE_H                                     | [...]
+    moveq    #0x00,d1                            | [$3e6f: ld   b,$00]
     jbsr    ldir_video                                  | [$3e71: ldir]
     rts
 """)

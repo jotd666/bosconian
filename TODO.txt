@@ -1,9 +1,9 @@
+- game locks up on 8C00 check after rom check, it used to go further
+  check what puts FF in 8C00, check if IRQ is on at this point on MAME
+  and on amiga
+  
+  
 - skip boot sequence
-
-
-    6 @  do 
-    3 @  do 
-
 bpset 3663,,{PC=$3713;g}
 bpset 375A,,{PC=$3766;g}
 

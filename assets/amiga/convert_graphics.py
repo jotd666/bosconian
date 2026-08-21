@@ -70,7 +70,6 @@ def doit(aga,dump_it):
     main_tile_palette = sorted(main_tile_palette)
     main_tile_palette.remove(orange)
     main_tile_palette = [orange]+main_tile_palette
-    print(len(main_tile_palette))
     # black in any position but first, which is ignored
     status_tile_palette = sorted(status_tile_palette)
     status_tile_palette.insert(0,(0x1,0x1,0x1))  # dummy
