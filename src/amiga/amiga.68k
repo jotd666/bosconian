@@ -707,9 +707,9 @@ demo_game:
 	add.l	#0xFFFF,a3			| trash A3 to match MAME IY
 	add.l	#0xFFFF,a2			| trash A3 to match MAME IX
 	move.l	a6,a0
-	add.l	#p1_a000,a0
-	st.b	(p2_a080-p1_a000,a0)
-	st.b	(a0)
+*	add.l	#p1_a000,a0
+*	st.b	(p2_a080-p1_a000,a0)
+*	st.b	(a0)
 	jra	reset_0000			| pass control to the bosconian core
 		
 cpu_init:
@@ -914,7 +914,7 @@ update_radar_dots:
 	* y = buffered_spriteram[radary+offs]
 	move.b	(a5,d3.w),d1		| radary=0x820
 	jeq		2f					| Y=0: skip
-	lea	(0x2000,a5),a4		| reload radar attributes (0xA004-0xA010)
+	lea	(0x1800,a5),a4		| reload radar attributes (0x9800-0x980f)
 	move.b	(a4,d4.w),d5
 	* code = ((radarattr & 0x0e) >> 1) ^ 0x07
 	move.b	d5,d2
@@ -1434,7 +1434,7 @@ status_addresses:
 *	}
 *}
 * 0x8034=>0x8040: dots on radar
-* m_radarattr = 0xA000->0xA00F
+* m_radarattr = 0x9800->0x980F
 *	m_radarx = m_videoram + 0x20 = 0x8020;
 *	m_radary = m_radarx + 0x800 = 0x8820;
 
@@ -3136,8 +3136,8 @@ update_controls:
 0:
 1:	
 	move.l	a6,a1
-	add.l	#p1_a000,a1
-	move.b	d0,(a1)
+*	add.l	#p1_a000,a1
+*	move.b	d0,(a1)
 
 
 	moveq	#-1,d0
@@ -3153,7 +3153,7 @@ update_controls:
 	beq.b	0f
 	bclr	#BIT_START_2P,d0
 0:
-	move.b	d0,(p2_a080-p1_a000,a1)
+*	move.b	d0,(p2_a080-p1_a000,a1)
 
 
 	rts

@@ -1,22 +1,29 @@
-;	map(0x0000, 0x3fff).rom();
-;	map(0x8000, 0x8fff).ram().w(FUNC(rallyx_state::videoram_w)).share(m_videoram);
-;	map(0x9800, 0x9fff).ram();
-;	map(0xa000, 0xa000).portr("P1");
-;	map(0xa080, 0xa080).portr("P2");
-;	map(0xa100, 0xa100).portr("DSW");
-;	map(0xa000, 0xa00f).writeonly().share(m_radarattr);
-;	map(0xa080, 0xa080).w("watchdog", FUNC(watchdog_timer_device::reset_w));
-;	map(0xa100, 0xa11f).w(m_namco_sound, FUNC(namco_device::pacman_sound_w));
-;	map(0xa130, 0xa130).w(FUNC(rallyx_state::scrollx_w));
-;	map(0xa140, 0xa140).w(FUNC(rallyx_state::scrolly_w));
-;	map(0xa170, 0xa170).nopw();            // ?
-;	map(0xa180, 0xa187).w("mainlatch", FUNC(ls259_device::write_d0));
+;	map(0x0000, 0x3fff).rom().nopw();         /* the only area different for each CPU */
+;	map(0x6800, 0x6807).r(FUNC(bosco_state::bosco_dsw_r));
+;	map(0x6800, 0x681f).w(m_namco_sound, FUNC(namco_device::pacman_sound_w));
+;	map(0x6820, 0x6827).w("misclatch", FUNC(ls259_device::write_d0));
+;	map(0x6830, 0x6830).w("watchdog", FUNC(watchdog_timer_device::reset_w));
+;	map(0x7000, 0x70ff).rw("06xx_0", FUNC(namco_06xx_device::data_r), FUNC(namco_06xx_device::data_w));
+;	map(0x7100, 0x7100).rw("06xx_0", FUNC(namco_06xx_device::ctrl_r), FUNC(namco_06xx_device::ctrl_w));
+;	map(0x7800, 0x7fff).ram().share("share1");
+;	map(0x8000, 0x8fff).ram().w(FUNC(bosco_state::bosco_videoram_w)).share("videoram");/* + sprite registers */
+;	map(0x9000, 0x90ff).rw("06xx_1", FUNC(namco_06xx_device::data_r), FUNC(namco_06xx_device::data_w));
+;	map(0x9100, 0x9100).rw("06xx_1", FUNC(namco_06xx_device::ctrl_r), FUNC(namco_06xx_device::ctrl_w));
+;	map(0x9800, 0x980f).writeonly().share("bosco_radarattr");
+;	map(0x9810, 0x9810).w(FUNC(bosco_state::bosco_scrollx_w));
+;	map(0x9820, 0x9820).w(FUNC(bosco_state::bosco_scrolly_w));
+;	map(0x9830, 0x9830).writeonly().share("starcontrol");
+;	map(0x9840, 0x9840).w(FUNC(bosco_state::bosco_starclr_w));
+;	map(0x9870, 0x9877).w(m_videolatch, FUNC(ls259_device::write_d0));
+
+
+
+
 
 watchdog_6830 = $6830
 stack_save_89b7 = $89b7
 nb_lives_83e2 = $83e2
-p1_a000 = $a000
-p2_a080 = $a080
+
 
 reset_0000:  ; [global]
 0000: 31 40 80    ld   sp,$8040
