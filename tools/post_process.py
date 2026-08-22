@@ -5,12 +5,9 @@ gamename = "bosconian"
 # game_specific: replace or remove I/O addresses
 # if not done it will write in ROM here!!
 input_dict = {
-"watchdog_a080":["","read_p2_inputs"],
-"scrollx_a130":"set_scroll_x",
-"scrolly_a140":"set_scroll_y",
-"dsw_a100":"read_dsw",
-"p1_a000":"read_p1_inputs",
-"dummy_6830":"",
+"scrollx_9810":"set_scroll_x",
+"scrolly_9820":"set_scroll_y",
+"watchdog_6830":"",
 }
 
 single_line_to_cc_protect = {0x00ec,0xf2,0x020c,0x0354,0x1093,0x1243,0x192a,0x1b8c,0x2042,0x2037,

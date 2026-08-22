@@ -19,12 +19,16 @@
 
 
 
-
+dsw_6800 = $6800
 watchdog_6830 = $6830
 stack_save_89b7 = $89b7
 nb_lives_83e2 = $83e2
-
-
+sound_6815 = $6815
+sound_681a = $681a
+sound_681f = $681f
+namco_device_data_9000 = $9000
+scrollx_9810 = $9810
+scrolly_9820 = $9820
 reset_0000:  ; [global]
 0000: 31 40 80    ld   sp,$8040
 0003: C3 0E 01    jp   continue_boot_010e
@@ -151,7 +155,7 @@ check_009d:
 00B1: 10 FB       djnz $00AE
 00B3: 18 ED       jr   $00A2
 
-00B5: 21 00 68    ld   hl,$6800
+00B5: 21 00 68    ld   hl,dsw_6800
 00B8: 06 08       ld   b,$08
 00BA: 7E          ld   a,(hl)
 00BB: 1F          rra
@@ -332,9 +336,9 @@ irq_01e6:   ; [global]
 0211: EE 03       xor  $03
 0213: 32 D4 83    ld   ($83D4),a
 0216: 3A 6D 80    ld   a,($806D)
-0219: 32 10 98    ld   ($9810),a
+0219: 32 10 98    ld   (scrollx_9810),a
 021C: 3A 6F 80    ld   a,($806F)
-021F: 32 20 98    ld   ($9820),a
+021F: 32 20 98    ld   (scrolly_9820),a
 0222: 3A E0 83    ld   a,($83E0)
 0225: 21 C8 03    ld   hl,jump_table_03c8
 0228: 3C          inc  a
@@ -1442,8 +1446,8 @@ jump_table_03d8:
 0B80: AF          xor  a
 0B81: 32 6D 80    ld   ($806D),a
 0B84: 32 6F 80    ld   ($806F),a
-0B87: 32 10 98    ld   ($9810),a
-0B8A: 32 20 98    ld   ($9820),a
+0B87: 32 10 98    ld   (scrollx_9810),a
+0B8A: 32 20 98    ld   (scrolly_9820),a
 0B8D: C9          ret
 
 
@@ -3452,7 +3456,7 @@ jump_table_1790:
 197C: CD 67 0B    call $0B67
 197F: 3E 04       ld   a,$04
 1981: 32 6D 80    ld   ($806D),a
-1984: 32 10 98    ld   ($9810),a
+1984: 32 10 98    ld   (scrollx_9810),a
 1987: 21 DF 19    ld   hl,$19DF
 198A: CD 37 1A    call $1A37
 198D: CD 37 1A    call $1A37
@@ -6517,13 +6521,13 @@ rest_of_boot_3632:
 3643: 10 F8       djnz $363D
 3645: 3D          dec  a
 3646: 32 00 70    ld   ($7000),a
-3649: 32 00 90    ld   ($9000),a	; not mapped
+3649: 32 00 90    ld   (namco_device_data_9000),a
 364C: 3E 10       ld   a,$10
 364E: 32 00 71    ld   ($7100),a
 3651: 32 00 91    ld   ($9100),a
-3654: 32 15 68    ld   ($6815),a
-3657: 32 1A 68    ld   ($681A),a
-365A: 32 1F 68    ld   ($681F),a
+3654: 32 15 68    ld   (sound_6815),a
+3657: 32 1A 68    ld   (sound_681a),a
+365A: 32 1F 68    ld   (sound_681f),a
 365D: 32 77 98    ld   ($9877),a
 3660: 06 0A       ld   b,$0A
 3662: D9          exx
@@ -7293,7 +7297,7 @@ end_of_rom_checksum_3815:
 3D90: FE 7F       cp   $7F
 3D92: C8          ret  z
 3D93: 3E 03       ld   a,$03
-3D95: 32 10 98    ld   ($9810),a
+3D95: 32 10 98    ld   (scrollx_9810),a
 3D98: 32 6D 80    ld   ($806D),a
 3D9B: 21 40 80    ld   hl,$8040
 3D9E: 06 08       ld   b,$08
@@ -7384,8 +7388,8 @@ end_of_rom_checksum_3815:
 3E52: 21 00 7F    ld   hl,$7F00
 3E55: 22 90 80    ld   ($8090),hl
 3E58: 22 92 80    ld   ($8092),hl
-3E5B: 32 10 98    ld   ($9810),a
-3E5E: 32 20 98    ld   ($9820),a
+3E5B: 32 10 98    ld   (scrollx_9810),a
+3E5E: 32 20 98    ld   (scrolly_9820),a
 3E61: 32 30 68    ld   (watchdog_6830),a
 3E64: 3C          inc  a
 3E65: 32 1F 8A    ld   ($8A1F),a
